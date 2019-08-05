@@ -1,0 +1,20 @@
+<DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>cookie tests</title>
+  </head>
+  <body>
+    <script>
+      document.cookie = "justname=nb";
+      document.cookie = "withdomain=nb; domain=localhost";
+      document.cookie = "withpathanddomain=nb; path=/; domain=localhost";
+      document.cookie = "withip=nb; domain=127.0.0.1";
+      document.cookie = "withpathandip=nb; path=/; domain=127.0.0.1";
+      
+      setTimeout(function() {
+        alert(document.cookie);
+      }, 1000);
+    </script>
+  </body>
+</html>
