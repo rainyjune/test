@@ -17,7 +17,7 @@
   <hr />
     <h2>Vimeo Video</h2>
   <iframe id="vimeoiframe" src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-  
+  <p>Status: <span id="videmostatus"></span></p>
 <script type="text/javascript">
   var tag = document.createElement('script');
   tag.id = 'iframe-demo';
@@ -73,14 +73,33 @@
   <script>
     var vimeoiframe = document.querySelector('#vimeoiframe');
     var videmoplayer = new Vimeo.Player(vimeoiframe);
+    var videmostatusElement = document.getElementById('videmostatus');
+    //var seekTimeS
 
     videmoplayer.on('play', function() {
-      console.log('Played the video');
+      videmostatusElement.innerText = 'playing';
     });
 
-    videmoplayer.getVideoTitle().then(function(title) {
-      console.log('title:', title);
+    videmoplayer.on('ended', function(data) {
+      videmostatusElement.innerText = 'ended';
     });
+    
+    videmoplayer.on('pause', function(data) {
+      videmostatusElement.innerText = 'paused';
+    });
+    
+    videmoplayer.on('seeking', function(data) {
+      videmostatusElement.innerText = 'seeking';
+      console.log('seeking:', data);
+    });
+    
+    videmoplayer.on('seeked', function(data) {
+      videmostatusElement.innerText = 'seeked';
+      console.log('seeked:', data);
+    });
+    
+    
+    
   </script>
   </body>
 </html>
