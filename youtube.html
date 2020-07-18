@@ -5,15 +5,15 @@
     <title>Youtube - IFrame Player API</title>
   </head>
   <body>
-    <p>build 10</p>
-    <h2>Requirements</h2>
+    <p>build 11</p>
+    <h2>Youtube IFrame player API does not support the seeked event, so there is no reliable way to detect a seek operation.</h2>
     <iframe id="existing-iframe-example"
         width="640" height="360"
         src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=https://rainyjune.github.io" <!-- replace the origin value with yours -->
         frameborder="0"
         style="border: solid 4px #37474F"></iframe>
-    <p>Status: </p>
-    <div id="status"></div>
+    <p>Status:<span id="status"></span></p>
+    
 
 <script type="text/javascript">
   var tag = document.createElement('script');
