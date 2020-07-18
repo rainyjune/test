@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Youtube - IFrame Player API</title>
+  </head>
+  <body>
+    <p>build 6</p>
+    <h2>Requirements</h2>
+    <iframe id="existing-iframe-example"
+        width="640" height="360"
+        src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://kang335.gitee.io"
+        frameborder="0"
+        style="border: solid 4px #37474F"></iframe>
+    <p>Status: </p>
+    <div id="status"></div>
+
+<script type="text/javascript">
+  var tag = document.createElement('script');
+  tag.id = 'iframe-demo';
+  tag.src = 'https://www.youtube.com/iframe_api';
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('existing-iframe-example', {
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+    });
+  }
+
+  var statusElement = document.getElementById('status');
+
+  function onPlayerReady(event) {
+    document.getElementById('existing-iframe-example').style.borderColor = '#FF6D00';
+    statusElement.innerHTML = 'Ready';
+  }
+  function changeBorderColor(playerStatus) {
+    var color;
+    var statusText;
+    if (playerStatus == -1) {
+      statusText = 'unstarted';        
+      color = "#37474F"; // unstarted = gray
+    } else if (playerStatus == 0) {
+      color = "#FFFF00"; // ended = yellow
+      statusText = 'ended';              
+    } else if (playerStatus == 1) {
+      color = "#33691E"; // playing = green
+      statusText = 'playing';        
+    } else if (playerStatus == 2) {
+      color = "#DD2C00"; // paused = red
+      statusText = 'paused';        
+      
+    } else if (playerStatus == 3) {
+      color = "#AA00FF"; // buffering = purple
+      statusText = 'buffering';        
+      
+    } else if (playerStatus == 5) {
+      color = "#FF6DOO"; // video cued = orange
+      statusText = 'cued';        
+      
+    }
+    if (color) {
+      document.getElementById('existing-iframe-example').style.borderColor = color;
+    }       
+    if (statusText) {
+      statusElement.innerHTML += 'unstarted';        
+    }
+  }
+  function onPlayerStateChange(event) {
+    changeBorderColor(event.data);
+  }
+</script>
+    <script>
+    </script>
+  </body>
+</html>
