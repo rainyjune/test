@@ -93,6 +93,11 @@
       console.log('timeupdate:', data);
     });
     
+    videmoplayer.on('seeking', function(data) {
+      videmostatusElement.innerText = 'seeking';
+      console.log('seeking:', data);
+    });
+    
     videmoplayer.on('seeked', function(data) {
       videmostatusElement.innerText = 'seeked';
       console.log('seeked:', data);
