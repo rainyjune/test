@@ -9,13 +9,13 @@
     <p>Youtube IFrame player API does not support the seeked event, so there is no reliable way to detect a seek operation.</p>
     <iframe id="existing-iframe-example"
         width="640" height="360"
-        src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=https://rainyjune.github.io" <!-- replace the origin value with yours -->
+        src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=https://rainyjune.github.io"
         frameborder="0"
         style="border: solid 4px #37474F"></iframe>
     <p>Status: <span id="status"></span></p>
   
   <hr />
-  <iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  <iframe id="vimeoiframe" src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
   
 <script type="text/javascript">
   var tag = document.createElement('script');
@@ -70,7 +70,16 @@
 </script>
     <script src="https://player.vimeo.com/api/player.js"></script>
   <script>
-    <!- Your Vimeo SDK player script goes here ->
+    var vimeoiframe = document.querySelector('#vimeoiframe');
+    var videmoplayer = new Vimeo.Player(vimeoiframe);
+
+    videmoplayer.on('play', function() {
+      console.log('Played the video');
+    });
+
+    videmoplayer.getVideoTitle().then(function(title) {
+      console.log('title:', title);
+    });
   </script>
   </body>
 </html>
