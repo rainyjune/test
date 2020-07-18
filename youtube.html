@@ -74,7 +74,7 @@
     var vimeoiframe = document.querySelector('#vimeoiframe');
     var videmoplayer = new Vimeo.Player(vimeoiframe);
     var videmostatusElement = document.getElementById('videmostatus');
-    //var seekTimeS
+    var currentSeconds = 0;
 
     videmoplayer.on('play', function() {
       videmostatusElement.innerText = 'playing';
@@ -90,17 +90,13 @@
     
     videmoplayer.on('timeupdate', function(data) {
       //videmostatusElement.innerText = 'seeking';
+      currentSeconds = data.seconds;
       console.log('timeupdate:', data);
     });
     
     videmoplayer.on('seeking', function(data) {
-      videmostatusElement.innerText = 'seeking';
       console.log('seeking:', data);
-    });
-    
-    videmoplayer.on('seeked', function(data) {
-      videmostatusElement.innerText = 'seeked';
-      console.log('seeked:', data);
+      videmostatusElement.innerText = data.seconds > currentSeconds ? 'fast-forward' : 'rewind';
     });
     
     
