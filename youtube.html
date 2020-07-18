@@ -5,7 +5,7 @@
     <title>Youtube - IFrame Player API</title>
   </head>
   <body>
-    <p>build 8</p>
+    <p>build 9</p>
     <h2>Requirements</h2>
     <iframe id="existing-iframe-example"
         width="640" height="360"
@@ -67,7 +67,7 @@
       document.getElementById('existing-iframe-example').style.borderColor = color;
     }       
     if (statusText) {
-      statusElement.innerHTML += 'unstarted';        
+      statusElement.innerHTML += "<br/>" + statusText;        
     }
   }
   function onPlayerStateChange(event) {
