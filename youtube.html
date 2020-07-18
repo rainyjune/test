@@ -88,8 +88,8 @@
       videmostatusElement.innerText = 'paused';
     });
     
-    videmoplayer.on('seeking', function(data) {
-      videmostatusElement.innerText = 'seeking';
+    videmoplayer.on('timeupdate', function(data) {
+      //videmostatusElement.innerText = 'seeking';
       console.log('seeking:', data);
     });
     
