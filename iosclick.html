@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>iOS Safari Click Test</title>
     <style>
-      #logdiv { width: 100px; height: 100px; border: 1px; position: absolute; left: 0; top: 0;}
+      #logdiv { width: 100px; height: 100px; border: 1px solid black; position: absolute; right: 0; top: 0; overflow:auto;}
     </style>
   </head>
   <body>
@@ -47,6 +47,11 @@
         <input type="submit" value="Submit"></p>
     </form>
     <script>
+      var logdiv = document.getElementById('logdiv');
+      document.addEventListener('click', function(event) {
+        event.preventDefault();
+        logdiv.innerHTML += "<br/>" + event.target.tagName;
+      });
     </script>
   </body>
 </html>
