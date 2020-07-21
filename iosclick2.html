@@ -8,13 +8,13 @@
   <body>
     <div id="outerDIV">
       <a href="#">A Link</a>
-      <div>A DIV</div>
+      <div>A DIV 2</div>
     </div>
     <script>
       var element = document.getElementById('outerDIV');
-      element.onclick= function(e) {
+      element.addEventListener('click', function(e) {
         alert('Event target: ' + e.target.tagName);
-      };
+      });
     </script>
   </body>
 </html>
