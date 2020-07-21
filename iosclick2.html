@@ -8,9 +8,10 @@
   <body>
     <div id="outerDIV">
       <a href="javascript:void(0)" style="padding: 10px; display:block; margin: 10px; background-color: black; color: white;">A Link</a>
-      <p style="padding: 10px; margin: 10px; background-color: black; color: white;">A P 6</p>
+      <p id="targetp" style="padding: 10px; margin: 10px; background-color: black; color: white;">A P 6 with onclick handler</p>
     </div>
     <script>
+      document.getElementById('targetp').onclick = function() {};
       /*
       document.getElementById('outerDIV').addEventListener('click', function(e) {
         alert('outerDIV Event target: ' + e.target.tagName);
