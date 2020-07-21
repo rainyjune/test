@@ -8,9 +8,28 @@
   <body>
     <div id="outerDIV">
       <a href="javascript:void(0)" style="padding: 10px; display:block; margin: 10px; background-color: black; color: white;">A Link</a>
-      <p id="targetp" style="padding: 10px; margin: 10px; background-color: black; color: white;">A P 6 no pointer;</p>
+      <p id="targetp" style="padding: 10px; margin: 10px; background-color: black; color: white;">A P 6  pointer;</p>
     </div>
     <script>
+      function injectCSS() {
+        var css = "p { cursor: pointer; }";
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        try {
+          style.appendChild(document.createTextNode(css))
+        } catch(e) {
+          style.styleSheet.cssText = css;
+        }
+        var head = document.getElementsByTagName('head')[0];
+        var firstScript = document.getElementsByTagName('script')[0];
+        if (head) {
+          head.appendChild(style);
+        } else {
+          firstScript.parentNode.insertBefore(style, firstScript);
+        }
+      }
+      
+      injectCSS()
       /*
       document.getElementById('outerDIV').addEventListener('click', function(e) {
         alert('outerDIV Event target: ' + e.target.tagName);
