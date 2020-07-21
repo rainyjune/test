@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>iOS Safari Click Test</title>
     <style>
-      * {
+      div, [data-sensors-click] {
         cursor: pointer; 
       }
       #logdiv { width: 200px; height: 200px; border: 1px solid black; position: absolute; right: 0; top: 0; overflow:auto;}
@@ -13,7 +13,8 @@
   </head>
   <body>
     <div id="logdiv"></div>
-    <div>This is a div container. add pointer</div>
+    <div>This is a div container</div>
+    <p data-sensors-click="true">This is a paragraph with the data-sensors-click attribute</div>
     <ul>
     <li>Milk</li>
     <li>Cheese
