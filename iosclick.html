@@ -79,6 +79,14 @@
       }
       
       injectCSS()
+      
+      function appendDiv() {
+        var div = document.createElement('div');
+        div.innerText = 'This div was appended 3 seconds after content loaded.';
+        document.body.appendChild(div);
+      }
+      
+      setTimeout(appendDiv, 3000);
     </script>
   </body>
 </html>
