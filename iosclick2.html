@@ -12,9 +12,9 @@
     </div>
     <script>
       var element = document.getElementById('outerDIV');
-      element.addEventListener('click', function(e) {
+      element.onclick= function(e) {
         alert('Event target: ' + e.target.tagName);
-      });
+      };
     </script>
   </body>
 </html>
