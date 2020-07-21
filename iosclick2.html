@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>iOS Safari Click Test</title>
+  </head>
+  <body>
+    <div id="outerDIV">
+      <a href="#">A Link</a>
+      <div>A DIV</div>
+    </div>
+    <script>
+      var element = document.getElementById('outerDIV');
+      element.addEventListener('click', function(e) {
+        alert('Event target: ' + e.target.tagName);
+      });
+    </script>
+  </body>
+</html>
