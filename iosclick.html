@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>iOS Safari Click Test</title>
     <style>
+      /*
       div, [data-sensors-click] {
         cursor: pointer; 
       }
+      */
       #logdiv { width: 200px; height: 200px; border: 1px solid black; position: absolute; right: 0; top: 0; overflow:auto;}
     </style>
   </head>
@@ -56,6 +58,26 @@
         event.preventDefault();
         logdiv.innerHTML += "<br/>" + event.target.tagName;
       });
+      
+      function injectCSS() {
+        var css = "div, [data-sensors-click] { cursor: pointer; }";
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        try {
+          style.appendChild(document.createTextNode(css))
+        } catch(e) {
+          style.styleSheet.cssText = css;
+        }
+        var head = document.getElementsByTagName('head')[0];
+        var firstScript = document.getElementsByTagName('script')[0];
+        if (head) {
+          head.appendChild(style);
+        } else {
+          firstScript.parentNode.insertBefore(style, firstScript);
+        }
+      }
+      
+      injectCSS()
     </script>
   </body>
 </html>
