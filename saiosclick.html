@@ -99,8 +99,14 @@
         }
         return capture_network_request;
     }
+    var length = 0;
     setInterval(function() {
-      console.log(captureNetworkRequest());
+      var requests = captureNetworkRequest();
+      if (requests.length > length) {
+        var newRequests = requests.slice(length - requests.length);
+        console.log('New Requests:", newRequests);
+        length = requests.length;
+      }
     }, 500)
 
   </script>
