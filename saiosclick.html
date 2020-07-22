@@ -83,7 +83,27 @@
         <span>span</span>
     </b>
 </div>
-  
+  <script>
+    if (typeof performance === "undefined") {
+      alert("= Calculate Load Times: performance NOT supported");
+    }
+    function captureNetworkRequest() {
+        var capture_network_request = [];
+        var capture_resource = performance.getEntriesByType("resource");
+        for (var i = 0; i < capture_resource.length; i++) {
+            if (capture_resource[i].initiatorType == "xmlhttprequest" || capture_resource[i].initiatorType == "img") {
+                if (capture_resource[i].name.indexOf('sa.gif') > -1) {
+                    capture_network_request.push(capture_resource[i].name)
+                }
+            }
+        }
+        return capture_network_request;
+    }
+    setInterval(function() {
+      console.log(captureNetworkRequest());
+    }, 500)
+
+  </script>
   
     <script>
 (function(para) {
