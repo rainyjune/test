@@ -48,6 +48,43 @@
       <p><input type="reset" value="Reset">
         <input type="submit" value="Submit"></p>
     </form>
+<hr />
+<p>下面的加粗字体可以采集</p>
+<div>
+    <strong>加粗</strong>
+</div>
+<hr />
+<p>div 存在多个子节点并且所有子节点都是样式标签时，如下例：点击 div 及样式标签均采集 div</p>
+<div>
+    <strong>加粗</strong>
+    <em>斜体</em>
+</div>
+  <hr />
+  <p>div 中样式标签存在嵌套，并且嵌套所有标签均是样式标签时，如下例：点击 div 及任意样式标签均采集 div</p>
+  <div>
+    <mark>高亮
+        <strong>加粗1</strong>
+        <strong>加粗2</strong>
+    </mark>
+    <i>斜体</i>
+</div>
+  
+  
+  <hr />
+  <p>div 中包含非样式标签，如下例：点击 div、span 、b 均不采集，</p>
+  <div>
+    <span>span</span>
+    <span>span</span>
+    <b>加粗</b>
+</div>
+  
+  <div>
+    <b>
+        <span>span</span>
+    </b>
+</div>
+  
+  
     <script>
 (function(para) {
   var p = para.sdk_url, n = para.name, w = window, d = document, s = 'script',x = null,y = null;
