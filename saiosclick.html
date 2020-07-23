@@ -152,7 +152,8 @@
     function perf_observer(list, observer) {
       // Process the "measure" event
 
-      console.error(getNetworkRequests(list.getEntriesByType('resource')));
+      //console.error(getNetworkRequests(list.getEntriesByType('resource')));
+      logRequestData(processRequests(getNetworkRequests(list.getEntriesByType('resource'))));
     }
     var observer2 = new PerformanceObserver(perf_observer);
     observer2.observe({entryTypes: ["resource"]});
