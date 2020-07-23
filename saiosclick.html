@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>SA iOS Safari Click Test</title>
+    <title>SA iOS Safari Click Test 2</title>
     <style>
       #logdiv { width: 200px; height: 200px; border: 1px solid black; position: fixed; right: 5px; top: 5px; overflow:auto;}
     </style>
@@ -141,8 +141,10 @@
     }, 500)
     */
     
-    function getNetworkRequests(type = ['img', 'xmlhttprequest']) {
-      return performance.getEntriesByType('resource').filter(entry => {
+    function getNetworkRequests(
+      entries = performance.getEntriesByType('resource'),
+      type = ['img', 'xmlhttprequest']) {
+      return entries.filter(entry => {
         return type.indexOf(entry.initiatorType) > -1;
       })
     }
@@ -150,7 +152,7 @@
     function perf_observer(list, observer) {
       // Process the "measure" event
 
-      console.error(getNetworkRequests());
+      console.error(getNetworkRequests(list));
     }
     var observer2 = new PerformanceObserver(perf_observer);
     observer2.observe({entryTypes: ["resource"]});
