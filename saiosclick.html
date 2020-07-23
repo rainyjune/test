@@ -100,7 +100,7 @@
     function processRequests(requests) {
       var data = [];
       for (let i = 0, len = requests.length; i < len; i++) {
-        data.push(getRequestData(requests[i]));
+        data.push(getRequestData(requests[i].name));
       }
       return data;
     }
