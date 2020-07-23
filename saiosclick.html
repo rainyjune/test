@@ -104,7 +104,7 @@
       var requests = captureNetworkRequest();
       if (requests.length > length) {
         var newRequests = requests.slice(length - requests.length);
-        console.log('New Requests:", newRequests);
+        console.log('New Requests:', newRequests);
         length = requests.length;
       }
     }, 500)
