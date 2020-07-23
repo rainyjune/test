@@ -109,6 +109,7 @@
       for (let i = 0, len = data.length; i < len; i++) {
         logdiv.innerHTML += "<br />" + data[i].properties.$element_type + '[' + data[i].properties.$element_content + ']';
       }
+      logdiv.scrollTop = logdiv.scrollHeight;
     }
     
     if (typeof performance === "undefined") {
