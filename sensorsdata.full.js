@@ -2137,6 +2137,36 @@ _.autoExeQueue = function(){
     return _.rot13obfs(str, n - key);
   };
 
+  _.setCssStyle = function(css) {
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    try {
+      style.appendChild(document.createTextNode(css))
+    } catch(e) {
+      style.styleSheet.cssText = css;
+    }
+    var head = document.getElementsByTagName('head')[0];
+    var firstScript = document.getElementsByTagName('script')[0];
+    if (head) {
+      if (head.children.length) {
+        head.insertBefore(style, head.children[0])
+      } else {
+        head.appendChild(style);
+      }
+    } else {
+      firstScript.parentNode.insertBefore(style, firstScript);
+    }
+  };
+
+  _.isIOS = function() {
+    return !!navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  };
+
+  _.getIOSVersion = function() {
+    var version = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
+    return Number.parseInt(version[1], 10);
+  };
+
 })();
 
 
@@ -5083,6 +5113,10 @@ sd.init = function(para){
 
   sd.detectMode();
 
+  // iOS Safari
+  if (sd._.isIOS() && sd._.getIOSVersion() < 13) {
+    sd._.setCssStyle("div, [data-sensors-click] { cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }");
+  }
 };
 
 var methods = ['track','quick','register','registerPage','registerOnce','trackSignup', 'setProfile','setOnceProfile','appendProfile', 'incrementProfile', 'deleteProfile', 'unsetProfile', 'identify','login','logout','trackLink','clearAllRegister'];
