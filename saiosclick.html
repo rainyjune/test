@@ -84,6 +84,26 @@
     </b>
 </div>
   <script>
+    function b64DecodeUnicode(str) {
+        // Going backwards: from bytestream, to percent-encoding, to original string.
+        return decodeURIComponent(atob(str).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    }
+    
+    function getRequestData(url) {
+      var data = sensors._.URL(url).searchParams.get('data');
+      return data ? JSON.parse(b64DecodeUnicode(data)) : '';
+    }
+    
+    function processRequests(requests) {
+      var data = [];
+      for (let i = 0, len = requests.length; i < len; i++) {
+        data.push(getRequestData(requests[i]));
+      }
+      return data;
+    }
+    
     if (typeof performance === "undefined") {
       alert("= Calculate Load Times: performance NOT supported");
     }
@@ -105,6 +125,7 @@
       if (requests.length > length) {
         var newRequests = requests.slice(length - requests.length);
         console.log('New Requests:', newRequests);
+        console.log('DATA:', processRequests(newRequests));
         length = requests.length;
       }
     }, 500)
