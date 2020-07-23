@@ -140,6 +140,20 @@
       }
     }, 500)
     */
+    
+    function getNetworkRequests(type = ['img', 'xmlhttprequest']) {
+      return performance.getEntriesByType('resource').filter(entry => {
+        return type.indexOf(entry.initiatorType) > -1;
+      })
+    }
+
+    function perf_observer(list, observer) {
+      // Process the "measure" event
+
+      console.error(getNetworkRequests());
+    }
+    var observer2 = new PerformanceObserver(perf_observer);
+    observer2.observe({entryTypes: ["resource"]});
 
   </script>
   
