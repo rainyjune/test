@@ -84,6 +84,7 @@
     </b>
 </div>
   <script>
+    var logdiv = document.getElementById('logdiv');
     function b64DecodeUnicode(str) {
         // Going backwards: from bytestream, to percent-encoding, to original string.
         return decodeURIComponent(atob(str).split('').map(function(c) {
@@ -102,6 +103,12 @@
         data.push(getRequestData(requests[i]));
       }
       return data;
+    }
+    
+    function logRequestData(data) {
+      for (let i = 0, len = data.length; i < len; i++) {
+        logdiv.innerHTML += "<br />" + data.properties.$element_type + '[' + data.properties.$element_content + ']';
+      }
     }
     
     if (typeof performance === "undefined") {
@@ -125,7 +132,8 @@
       if (requests.length > length) {
         var newRequests = requests.slice(length - requests.length);
         console.log('New Requests:', newRequests);
-        console.log('DATA:', processRequests(newRequests));
+        //console.log('DATA:', processRequests(newRequests));
+        logRequestData(processRequests(newRequests));
         length = requests.length;
       }
     }, 500)
