@@ -32,6 +32,6 @@ function printRequest(requests) {
     document.body.appendChild(logDiv);
   }
   
-  logDiv.innerHTML += requests.map(request => request.initiatorType + ':' + request.name).join("<br />");
-  logdiv.scrollTop = logdiv.scrollHeight; // 自动滚动到最新的日志
+  logDiv.innerHTML += requests.map(request => request.initiatorType + ':' + request.name).join("<hr />");
+  logDiv.scrollTop = logDiv.scrollHeight; // 自动滚动到最新的日志
 }
