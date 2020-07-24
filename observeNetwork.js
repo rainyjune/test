@@ -20,9 +20,18 @@ function printRequest(requests) {
   if (!logDiv) {
     logDiv = document.createElement('div');
     logDiv.id = "myLogDiv";
-    logDiv.style.cssText = "position: fixed; right: 0; top: 0; width: 200px; height: 200px; border: 1px solid black;";
+    logDiv.style.cssText = `position: fixed;
+      right: 0;
+      top: 0;
+      width: 200px;
+      height: 200px;
+      border: 1px solid black;
+      z-index: 9999999;
+      background-color: white;
+      overflow: auto;`;
     document.body.appendChild(logDiv);
   }
   
   logDiv.innerHTML += requests.map(request => request.initiatorType + ':' + request.name).join("<br />");
+  logdiv.scrollTop = logdiv.scrollHeight; // 自动滚动到最新的日志
 }
