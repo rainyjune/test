@@ -1,5 +1,6 @@
 function perf_observer(list, observer) {
-  console.log(getNetworkRequests(list.getEntriesByType('resource')));
+  var requests = getNetworkRequests(list.getEntriesByType('resource'));
+  printRequest(requests);
 }
 // 监测网络变化
 var observer = new PerformanceObserver(perf_observer);
@@ -12,4 +13,15 @@ function getNetworkRequests(
   return entries.filter(entry => {
     return type.indexOf(entry.initiatorType) > -1;
   })
+}
+
+function printRequest(requests) {
+  var logDiv = document.getElementById('myLogDiv');
+  if (!logDiv) {
+    logDiv = document.createElement('div');
+    logDiv.style.cssText = "position: fixed; right: 0; top: 0; width: 200px; height: 200px; border: 1px solid black;";
+    document.body.appendChild(logDiv);
+  }
+  
+  logDiv.innerHTML += requests.map(request => request.initiatorType + ':' + request.name).join("<br />");
 }
