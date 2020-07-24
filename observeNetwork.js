@@ -19,6 +19,7 @@ function printRequest(requests) {
   var logDiv = document.getElementById('myLogDiv');
   if (!logDiv) {
     logDiv = document.createElement('div');
+    logDiv.id = "myLogDiv";
     logDiv.style.cssText = "position: fixed; right: 0; top: 0; width: 200px; height: 200px; border: 1px solid black;";
     document.body.appendChild(logDiv);
   }
