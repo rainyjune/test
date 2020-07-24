@@ -17,7 +17,7 @@ function getNetworkRequests(
 
 function printRequest(requests) {
   var logDiv = document.getElementById('myLogDiv');
-  if (!logDiv) {
+  if (!logDiv) { // 如果日志容器不存在则创建它
     logDiv = document.createElement('div');
     logDiv.id = "myLogDiv";
     logDiv.style.cssText = `position: fixed;
