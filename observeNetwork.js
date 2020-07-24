@@ -23,7 +23,7 @@ function printRequest(requests) {
     logDiv.style.cssText = `position: fixed;
       right: 0;
       top: 0;
-      width: 200px;
+      width: 300px;
       height: 200px;
       border: 1px solid black;
       z-index: 9999999;
