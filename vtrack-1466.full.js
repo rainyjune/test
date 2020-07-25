@@ -10553,8 +10553,7 @@
 	  },
 	  toggleDefineHandler: function(isEnable) { // 为不同的模式绑定事件监听器
 	    var tags = ['input', 'a', 'button', 'textarea'];
-	    var ignoreTags = sensorsDataAnalytic201505.para.heatmap.ignore_tags;
-	    if (sensorsDataAnalytic201505._.isArray(ignoreTags)) {
+	    if (sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
 	      tags.push('div');
 	    }
 	    var tagsStr = tags.join(', ');
