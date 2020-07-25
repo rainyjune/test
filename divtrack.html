@@ -6,7 +6,7 @@
     <title>DIV Tracking Test</title>
   </head>
   <body>
-    <p>build -1</p>
+    <p>build -2 No DIV</p>
     <div>This is a div container</div>
     <p data-sensors-click="true">This is a paragraph with the data-sensors-click attribute</div>
     <ul>
@@ -105,6 +105,8 @@
       //heatmap_url神策分析中点击分析及触达分析功能代码，代码生成工具会自动生成。如果神策代码中 `sensorsdata.min.js` 版本是 1.9.1 及以上版本，这个参数必须配置，低于此版本不需要配置。
       heatmap_url: "https://cdn.jsdelivr.net/npm/sa-sdk-javascript@1.13.12/heatmap.min.js",
       heatmap: {
+        collect_tags:{
+        },
         scroll_notice_map: 'not_collect'
       }
     });
