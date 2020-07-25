@@ -10259,7 +10259,7 @@
 	      target_ele = target;
 	    } else if (parent_ele.tagName.toLowerCase() === 'button' || parent_ele.tagName.toLowerCase() === 'a') {
 	      target_ele = parent_ele;
-	    } else if(grand_ele && (grand_ele.tagName.toLowerCase() === 'button' || grand_ele.tagName.toLowerCase() === 'a')){
+	    } else if(grand_ele && grand_ele.tagName && (grand_ele.tagName.toLowerCase() === 'button' || grand_ele.tagName.toLowerCase() === 'a')){
 				target_ele = grand_ele;
 			} else if(tagName === 'div' && sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
 	      if (sensorsDataAnalytic201505.heatmap.isCollectableDiv(target)) {
