@@ -10404,14 +10404,16 @@
 	      theTarget = jquery3_2_1(this);
 	    } else if (parent_ele.tagName.toLowerCase() === 'button' || parent_ele.tagName.toLowerCase() === 'a') {
 	      theTarget = jquery3_2_1(parent_ele);
-	    } else if(tagName === 'div') {
+	    } else if(tagName === 'div' && sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
 	      if (sensorsDataAnalytic201505.heatmap.isCollectableDiv(target)) {
 	        theTarget = jquery3_2_1(this);
 	      }
 	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName)) {
-	      var divTarget = sensorsDataAnalytic201505.heatmap.getCollectableParent(target);
-	      if(divTarget){
-	        theTarget = jquery3_2_1(divTarget);
+	      if (sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
+	        var divTarget = sensorsDataAnalytic201505.heatmap.getCollectableParent(target);
+	        if(divTarget){
+	          theTarget = jquery3_2_1(divTarget);
+	        }
 	      }
 	    }
 	    if (theTarget && theTarget.hasClass('sa-vtrack-highlight') === false) {
