@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>DIV Tracking Test</title>
+  </head>
+  <body>
+    <p>build -1</p>
+    <div>This is a div container</div>
+    <p data-sensors-click="true">This is a paragraph with the data-sensors-click attribute</div>
+    <ul>
+    <li onClick="">Milk - with onClick()</li>
+    <li>Cheese
+        <ul>
+            <li>Blue cheese</li>
+            <li>Feta</li>
+        </ul>
+    </li>
+</ul>
+    <p>This is a p tag. visit <a href="https://google.com/">Google.com</a> <button>Click Me!</button></p>
+    <form>
+      <p>User: <input type="text" name="user" value="" /></p>
+      <p>Password: <input type="password" name="pwd" value="" /></p>
+      <p><input type="radio" id="male" name="gender" value="male">
+  <label for="male">Male</label><br>
+  <input type="radio" id="female" name="gender" value="female">
+  <label for="female">Female</label><br>
+  <input type="radio" id="other" name="gender" value="other">
+  <label for="other">Other</label></p>
+      <p>Introduce yourself:</p>
+      <p><textarea></textarea></p>
+      <p><label for="pet-select">Choose a pet:</label>
+
+<select name="pets" id="pet-select">
+    <option value="">--Please choose an option--</option>
+    <option value="dog">Dog</option>
+    <option value="cat">Cat</option>
+    <option value="hamster">Hamster</option>
+    <option value="parrot">Parrot</option>
+    <option value="spider">Spider</option>
+    <option value="goldfish">Goldfish</option>
+        </select></p>
+      <p><input type="reset" value="Reset">
+        <input type="submit" value="Submit"></p>
+    </form>
+<hr />
+<p>下面的加粗字体可以采集</p>
+<div>
+    <strong>加粗</strong>
+</div>
+<hr />
+<p>div 存在多个子节点并且所有子节点都是样式标签时，如下例：点击 div 及样式标签均采集 div</p>
+<div>
+    <strong>加粗</strong>
+    <em>斜体</em>
+</div>
+  <hr />
+  <p>div 中样式标签存在嵌套，并且嵌套所有标签均是样式标签时，如下例：点击 div 及任意样式标签均采集 div</p>
+  <div>
+    <mark>高亮
+        <strong>加粗1</strong>
+        <strong>加粗2</strong>
+    </mark>
+    <i>斜体</i>
+</div>
+  
+  
+  <hr />
+  <p>div 中包含非样式标签，如下例：点击 div、span 、b 均不采集，</p>
+  <div>
+    <span>span</span>
+    <span>span</span>
+    <b>加粗</b>
+</div>
+  
+  <div>
+    <b>
+        <span>span</span>
+    </b>
+</div>
+    <script>
+(function(para) {
+  var p = para.sdk_url, n = para.name, w = window, d = document, s = 'script',x = null,y = null;
+  if(typeof(w['sensorsDataAnalytic201505']) !== 'undefined') {
+      return false;
+  }
+  w['sensorsDataAnalytic201505'] = n;
+  w[n] = w[n] || function(a) {return function() {(w[n]._q = w[n]._q || []).push([a, arguments]);}};
+  var ifs = ['track','quick','register','registerPage','registerOnce','trackSignup', 'trackAbtest', 'setProfile','setOnceProfile','appendProfile', 'incrementProfile', 'deleteProfile', 'unsetProfile', 'identify','login','logout','trackLink','clearAllRegister'];
+  for (var i = 0; i < ifs.length; i++) {
+    w[n][ifs[i]] = w[n].call(null, ifs[i]);
+  }
+  if (!w[n]._t) {
+    x = d.createElement(s), y = d.getElementsByTagName(s)[0];
+    x.async = 1;
+    x.src = p;
+    w[n].para = para;
+    y.parentNode.insertBefore(x, y);
+  }
+})({
+      sdk_url: './sensorsdata-1466.full.js?r=' + Math.random(),
+      name: 'sensors',
+      server_url:'https://test-syg.datasink.sensorsdata.cn/sa?token=27f1e21b78daf376&project=lixiang',
+      //heatmap_url神策分析中点击分析及触达分析功能代码，代码生成工具会自动生成。如果神策代码中 `sensorsdata.min.js` 版本是 1.9.1 及以上版本，这个参数必须配置，低于此版本不需要配置。
+      heatmap_url: "https://cdn.jsdelivr.net/npm/sa-sdk-javascript@1.13.12/heatmap.min.js",
+      heatmap: {
+        scroll_notice_map: 'not_collect'
+      }
+    });
+</script>
+  </body>
+</html>
