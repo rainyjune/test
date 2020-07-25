@@ -10261,11 +10261,11 @@
 	      target_ele = parent_ele;
 	    } else if(grand_ele && (grand_ele.tagName.toLowerCase() === 'button' || grand_ele.tagName.toLowerCase() === 'a')){
 				target_ele = grand_ele;
-			} else if(tagName === 'div') {
+			} else if(tagName === 'div' && sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
 	      if (sensorsDataAnalytic201505.heatmap.isCollectableDiv(target)) {
 	        target_ele = target;
 	      }
-	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName)) {
+	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName) && sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
 	      var divTarget = sensorsDataAnalytic201505.heatmap.getCollectableParent(target);
 	      if(divTarget){
 	        target_ele = divTarget;
