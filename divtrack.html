@@ -6,7 +6,7 @@
     <title>DIV Tracking Test</title>
   </head>
   <body>
-    <p>build -2 div: true;</p>
+    <p>build -2 div: false;</p>
     <div>This is a div container</div>
     <p data-sensors-click="true">This is a paragraph with the data-sensors-click attribute</div>
     <ul>
@@ -106,7 +106,7 @@
       heatmap_url: "https://cdn.jsdelivr.net/npm/sa-sdk-javascript@1.13.12/heatmap.min.js",
       heatmap: {
         collect_tags:{
-          div: true
+          div: false
         },
         scroll_notice_map: 'not_collect'
       }
