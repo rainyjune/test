@@ -6,7 +6,7 @@
     <title>DIV Tracking Test</title>
   </head>
   <body>
-    <p>build -2 div: [span, b];</p>
+    <p>build -2 div: [span, b]; window.onerror</p>
     <div>This is a div container</div>
     <p data-sensors-click="true">This is a paragraph with the data-sensors-click attribute</div>
     <ul>
@@ -91,22 +91,13 @@
     <label for="collect_tags_div_false">heatmap: { scroll_notice_map: 'not_collect', collect_tags: { div: false } }</label><br>
   </p>
   <script>
-    document.querySelectorAll('input[name=heatmapconfig]').forEach(function(radio) {
-      radio.addEventListener('click', function(event) {
-        switch(radio.id) {
-          case 'collect_tags_div_true':
-            sensors.para.heatmap.collect_tags.div = true;
-            break;
-          case 'collect_tags_div_false':
-            sensors.para.heatmap.collect_tags.div = false;
-            break;
-          default:
-            break;
-        }
-      });
-    });
+window.onerror = function(message, source, lineno, colno, error) {
+alert('Error:);
+}
   </script>
+  <!--
   <script src="./observeNetwork.js"></script>
+-->
     <script>
 (function(para) {
   var p = para.sdk_url, n = para.name, w = window, d = document, s = 'script',x = null,y = null;
