@@ -10261,12 +10261,12 @@
 	      target_ele = parent_ele;
 	    } else if(grand_ele && grand_ele.tagName && (grand_ele.tagName.toLowerCase() === 'button' || grand_ele.tagName.toLowerCase() === 'a')){
 				target_ele = grand_ele;
-			} else if(tagName === 'div' && sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
-	      if (sensorsDataAnalytic201505.heatmap.isCollectableDiv(target)) {
+			} else if(tagName === 'div') {
+	      if (sensorsDataAnalytic201505.heatmap.isCollectableDiv(target, true)) {
 	        target_ele = target;
 	      }
-	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName) && sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
-	      var divTarget = sensorsDataAnalytic201505.heatmap.getCollectableParent(target);
+	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName, true)) {
+	      var divTarget = sensorsDataAnalytic201505.heatmap.getCollectableParent(target, true);
 	      if(divTarget){
 	        target_ele = divTarget;
 	      }
@@ -10351,34 +10351,6 @@
 	      }
 	    }
 	  },
-	  // saveScreenShot: function(element_selector) { // 截屏后发送给前端
-	  //   html2canvas(document.body, {
-	  //     x: window.scrollX,
-	  //     y: window.scrollY,
-	  //     width: window.innerWidth,
-	  //     height: window.innerHeight,
-	  //     logging: false,
-	  //     onclone: function(doc) {
-	  //       var ele = $(doc).find('.sa-vtrack-clickable');
-	  //       ele.removeClass('sa-vtrack-clickable');
-	  //       if (ele.is('input[type=radio]') || ele.is('input[type=checkbox]')) {
-	  //         ele.wrap("<span class='sa-vtrack-screenshot'></span>");
-	  //       } else {
-	  //         ele.addClass('sa-vtrack-screenshot')
-	  //       }
-	  //     }
-	  //   }).then(function(canvas) {
-	  //     var img = canvas.toDataURL("image/png");
-	  //     vTrack.postMessage({
-	  //       source:'sa-web-sdk',
-	  //       type: 'v-define-screenshot',
-	  //       data:{
-	  //         element_selector: element_selector,
-	  //         screenshot: img
-	  //       }
-	  //     });
-	  //   });
-	  // },
 	  clickHandlerViewMode: function(e) { // 浏览模式下点击监听器
 	    var href = jquery3_2_1(this).attr('href');
 	    if (!href || href === '#' || href.indexOf('javascript:') === 0) {
@@ -10399,21 +10371,19 @@
 	    var target = e.target;
 	    var tagName = target.tagName.toLowerCase();
 	    var parent_ele = target.parentNode;
-	    
+
 	    if (tags.indexOf(tagName) > -1) {
 	      theTarget = jquery3_2_1(this);
 	    } else if (parent_ele.tagName.toLowerCase() === 'button' || parent_ele.tagName.toLowerCase() === 'a') {
 	      theTarget = jquery3_2_1(parent_ele);
-	    } else if(tagName === 'div' && sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
-	      if (sensorsDataAnalytic201505.heatmap.isCollectableDiv(target)) {
+	    } else if(tagName === 'div') {
+	      if (sensorsDataAnalytic201505.heatmap.isCollectableDiv(target, true)) {
 	        theTarget = jquery3_2_1(this);
 	      }
-	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName)) {
-	      if (sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
-	        var divTarget = sensorsDataAnalytic201505.heatmap.getCollectableParent(target);
-	        if(divTarget){
-	          theTarget = jquery3_2_1(divTarget);
-	        }
+	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName, true)) {
+	      var divTarget = sensorsDataAnalytic201505.heatmap.getCollectableParent(target, true);
+	      if(divTarget){
+	        theTarget = jquery3_2_1(divTarget);
 	      }
 	    }
 	    if (theTarget && theTarget.hasClass('sa-vtrack-highlight') === false) {
@@ -10552,10 +10522,7 @@
 	    document.getElementsByTagName('head')[0].appendChild(style);
 	  },
 	  toggleDefineHandler: function(isEnable) { // 为不同的模式绑定事件监听器
-	    var tags = ['input', 'a', 'button', 'textarea'];
-	    if (sensorsDataAnalytic201505.para.heatmap.collect_tags.div) {
-	      tags.push('div');
-	    }
+	    var tags = ['input', 'a', 'button', 'textarea', 'div'];
 	    var tagsStr = tags.join(', ');
 	    if (isEnable) { // 埋点模式
 	      if (this.defineHandlersAttached) return false; // 避免事件重复绑定
