@@ -10351,6 +10351,34 @@
 	      }
 	    }
 	  },
+	  // saveScreenShot: function(element_selector) { // 截屏后发送给前端
+	  //   html2canvas(document.body, {
+	  //     x: window.scrollX,
+	  //     y: window.scrollY,
+	  //     width: window.innerWidth,
+	  //     height: window.innerHeight,
+	  //     logging: false,
+	  //     onclone: function(doc) {
+	  //       var ele = $(doc).find('.sa-vtrack-clickable');
+	  //       ele.removeClass('sa-vtrack-clickable');
+	  //       if (ele.is('input[type=radio]') || ele.is('input[type=checkbox]')) {
+	  //         ele.wrap("<span class='sa-vtrack-screenshot'></span>");
+	  //       } else {
+	  //         ele.addClass('sa-vtrack-screenshot')
+	  //       }
+	  //     }
+	  //   }).then(function(canvas) {
+	  //     var img = canvas.toDataURL("image/png");
+	  //     vTrack.postMessage({
+	  //       source:'sa-web-sdk',
+	  //       type: 'v-define-screenshot',
+	  //       data:{
+	  //         element_selector: element_selector,
+	  //         screenshot: img
+	  //       }
+	  //     });
+	  //   });
+	  // },
 	  clickHandlerViewMode: function(e) { // 浏览模式下点击监听器
 	    var href = jquery3_2_1(this).attr('href');
 	    if (!href || href === '#' || href.indexOf('javascript:') === 0) {
@@ -10380,7 +10408,7 @@
 	      if (sensorsDataAnalytic201505.heatmap.isCollectableDiv(target, true)) {
 	        theTarget = jquery3_2_1(this);
 	      }
-	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName, true)) {
+	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName)) {
 	      var divTarget = sensorsDataAnalytic201505.heatmap.getCollectableParent(target, true);
 	      if(divTarget){
 	        theTarget = jquery3_2_1(divTarget);
