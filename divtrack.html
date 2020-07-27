@@ -95,10 +95,10 @@
       radio.addEventListener('click', function(event) {
         switch(radio.id) {
           case 'collect_tags_div_true':
-            sensors.para.heatmap.collect_tags = {div: true};
+            sensors.para.heatmap.collect_tags.div = true;
             break;
           case 'collect_tags_div_false':
-            sensors.para.heatmap.collect_tags = {div: false};
+            sensors.para.heatmap.collect_tags.div = false;
             break;
           default:
             break;
