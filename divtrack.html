@@ -83,6 +83,19 @@
   <div><span>DIV内部只有这个span标签</span></div>
   
   <div><span>DIV内部只有这个b标签</span></div>
+  
+  <p>
+    <input type="radio" id="heatmapunset" name="heatmapconfig" value="">
+    <label for="heatmapunset">heatmap未设置</label><br>
+    <input type="radio" id="collect_tagsunset" name="heatmapconfig" value="heatmap: { scroll_notice_map: 'not_collect' }">
+    <label for="collect_tagsunset">heatmap: { scroll_notice_map: 'not_collect' }</label><br>
+    <input type="radio" id="collect_tags_null" name="heatmapconfig" value="heatmap: { scroll_notice_map: 'not_collect', collect_tags: null }">
+    <label for="collect_tags_null">heatmap: { scroll_notice_map: 'not_collect', collect_tags: null }</label><br>
+    <input type="radio" id="collect_tags_div_true" name="heatmapconfig" value="heatmap: { scroll_notice_map: 'not_collect', collect_tags: { div: true } }">
+    <label for="collect_tags_div_true">heatmap: { scroll_notice_map: 'not_collect', collect_tags: { div: true } }</label><br>
+    <input type="radio" id="collect_tags_div_false" name="heatmapconfig" value="heatmap: { scroll_notice_map: 'not_collect', collect_tags: { div: false } }">
+    <label for="collect_tags_div_false">heatmap: { scroll_notice_map: 'not_collect', collect_tags: { div: false } }</label><br>
+  </p>
   <script src="./observeNetwork.js"></script>
     <script>
 (function(para) {
