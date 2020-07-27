@@ -3261,8 +3261,7 @@ sd.detectMode = function(){
           },
           error: function(){},
           type: 'js',
-          //url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
-          url: './vtrack-1466.full.js'
+          url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
         });
       },
       messageListener: function(event) {
@@ -4890,18 +4889,20 @@ sd.bridge = {
     }
     return false;
   },
-  isStyleTag:function(tagname){
+  isStyleTag:function(tagname, isVisualMode){
     var defaultTag = ['a','div','input','button','textarea'];
+    var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
     if(_.indexOf(defaultTag,tagname)>-1){
       return false;
     }
-    if(_.isObject(sd.para.heatmap.collect_tags.div) && _.indexOf(sd.para.heatmap.collect_tags.div.ignore_tags,tagname) > -1){
+    if (isVisualMode && !sd.para.heatmap.collect_tags.div) {
+      return _.indexOf(ignore_tags_default, tagname) > -1;
+    } else if(_.isObject(sd.para.heatmap.collect_tags.div) && _.indexOf(sd.para.heatmap.collect_tags.div.ignore_tags,tagname) > -1){
       return true;
-    }else{
-      return false;
     }
+    return false;
   },
-  isCollectableDiv: function(target){
+  isCollectableDiv: function(target, isVisualMode){
     try {
       if(target.children.length === 0){
         return true;
@@ -4911,8 +4912,8 @@ sd.bridge = {
               continue;
             }
             var tag = target.children[i].tagName.toLowerCase();
-            if(this.isStyleTag(tag)){
-                if(!this.isCollectableDiv(target.children[i])){
+            if(this.isStyleTag(tag, isVisualMode)){
+                if(!this.isCollectableDiv(target.children[i]), isVisualMode){
                     return false;
                 }
             }else{
@@ -4926,17 +4927,17 @@ sd.bridge = {
     }
     return false;
   },
-  getCollectableParent:function(target){
+  getCollectableParent:function(target, isVisualMode){
     try {
       var parent = target.parentNode;
       var parentName = parent?parent.tagName.toLowerCase():'';
       if(parentName === 'body'){
           return false;
       }
-      if(parentName && parentName === 'div' && this.isCollectableDiv(parent)){
+      if(parentName && parentName === 'div' && this.isCollectableDiv(parent, isVisualMode)){
           return parent;
-      }else if(parent && this.isStyleTag(parentName)){
-          return this.getCollectableParent(parent);
+      }else if(parent && this.isStyleTag(parentName, isVisualMode)){
+          return this.getCollectableParent(parent, isVisualMode);
       }
     } catch (error) {
       sd.log(error);
