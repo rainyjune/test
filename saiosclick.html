@@ -127,19 +127,6 @@
         }
         return capture_network_request;
     }
-    var length = 0;
-    /*
-    setInterval(function() {
-      var requests = captureNetworkRequest();
-      if (requests.length > length) {
-        var newRequests = requests.slice(length - requests.length);
-        console.log('New Requests:', newRequests);
-        //console.log('DATA:', processRequests(newRequests));
-        logRequestData(processRequests(newRequests));
-        length = requests.length;
-      }
-    }, 500)
-    */
     
     function getNetworkRequests(
       entries = performance.getEntriesByType('resource'),
@@ -150,14 +137,10 @@
     }
 
     function perf_observer(list, observer) {
-      // Process the "measure" event
-
-      //console.error(getNetworkRequests(list.getEntriesByType('resource')));
       logRequestData(processRequests(getNetworkRequests(list.getEntriesByType('resource'))));
     }
     var observer2 = new PerformanceObserver(perf_observer);
     observer2.observe({entryTypes: ["resource"]});
-
   </script>
   
     <script>
