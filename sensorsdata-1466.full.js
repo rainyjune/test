@@ -4890,6 +4890,15 @@ sd.bridge = {
     }
     return false;
   },
+  isStyleTagVisual: function(tagname) {
+    var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
+    if (!sd.para.heatmap.collect_tags.div) {
+      return _.indexOf(ignore_tags_default, tagname) > -1;
+    } else if (_.isObject(sd.para.heatmap.collect_tags.div) && _.indexOf(sd.para.heatmap.collect_tags.div.ignore_tags,tagname) > -1) {
+      return true;
+    }
+    return false;
+  },
   isStyleTag:function(tagname, isVisualMode){
     var defaultTag = ['a','div','input','button','textarea'];
     var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
@@ -4914,7 +4923,7 @@ sd.bridge = {
             }
             var tag = target.children[i].tagName.toLowerCase();
             if(this.isStyleTag(tag, isVisualMode)){
-                if(!this.isCollectableDiv(target.children[i]), isVisualMode){
+                if (!this.isCollectableDiv(target.children[i], isVisualMode)) {
                     return false;
                 }
             }else{
