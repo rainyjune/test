@@ -96,6 +96,13 @@
     <input type="radio" id="collect_tags_div_false" name="heatmapconfig" value="heatmap: { scroll_notice_map: 'not_collect', collect_tags: { div: false } }">
     <label for="collect_tags_div_false">heatmap: { scroll_notice_map: 'not_collect', collect_tags: { div: false } }</label><br>
   </p>
+  <script>
+    document.querySelectorAll('input[name=heatmapconfig]').forEach(function(radio) {
+      radio.addEventListener('click', function(event) {
+        alert(radio.value);
+      });
+    });
+  </script>
   <script src="./observeNetwork.js"></script>
     <script>
 (function(para) {
