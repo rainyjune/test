@@ -3262,7 +3262,7 @@ sd.detectMode = function(){
           error: function(){},
           type: 'js',
           //url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
-          url: './vtrack-1466.full.js?r=' + Math.random()
+          url: './vtrack-1466.full.js'
         });
       },
       messageListener: function(event) {
