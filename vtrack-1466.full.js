@@ -10254,8 +10254,10 @@
 	    // var target_ele_qs = '';
 	    if(parent_ele.parentNode){
 				grand_ele = parent_ele.parentNode;
-			}
-	    if (tags.indexOf(tagName) > -1) {
+	    }
+	    if (jquery3_2_1(target).parents('.sa-vtrack-highlight').length === 1) {
+	      target_ele = jquery3_2_1(target).parents('.sa-vtrack-highlight')[0];
+	    } else if (tags.indexOf(tagName) > -1) {
 	      target_ele = target;
 	    } else if (parent_ele.tagName.toLowerCase() === 'button' || parent_ele.tagName.toLowerCase() === 'a') {
 	      target_ele = parent_ele;
