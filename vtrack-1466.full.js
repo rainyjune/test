@@ -10408,7 +10408,7 @@
 	      if (sensorsDataAnalytic201505.heatmap.isCollectableDiv(target, true)) {
 	        theTarget = jquery3_2_1(this);
 	      }
-	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName)) {
+	    } else if(sensorsDataAnalytic201505.heatmap.isStyleTag(tagName, true)) {
 	      var divTarget = sensorsDataAnalytic201505.heatmap.getCollectableParent(target, true);
 	      if(divTarget){
 	        theTarget = jquery3_2_1(divTarget);
