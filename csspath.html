@@ -7,9 +7,18 @@
     <link rel="stylesheet" href="qunit-1.23.1.css">
   </head>
   <body>
+    <div id="div132" style="display: none;"><!-- comments -->
+      <ul>
+        <!---->
+        <li>item1</li>
+        <li>item2</li>
+      </ul>
+    </div>
+
+    <div class=""><!-- comments --></div><!-- comments -->
+    <div class="divclass divclass2"><!-- comments --></div>
+    <div id="invalid id"></div>
     <div id="qunit"></div>
-    <div class=""></div>
-    <div class="divclass"></div>
     <div id="qunit-fixture">
 
     </div>
@@ -17,12 +26,24 @@
     <script src="csspath.js"></script>
     <script>
       QUnit.module('Test', function() {
+
         QUnit.test('An element with the id attribute', function(assert) {
           assert.equal(getCssPath(document.getElementById('qunit-fixture')), '#qunit-fixture');
         });
 
         QUnit.test('An element with the class attribute', function(assert) {
-          assert.equal(getCssPath(document.getElementsByTagName('div')[2]), '#qunit-fixture');
+          assert.equal(getCssPath(document.getElementsByTagName('div')[2]), 'body > div:nth-child(3)');
+        });
+
+        QUnit.test('The body tag', function(assert) {
+          assert.equal(getCssPath(document.getElementsByTagName('body')[0]), 'body');
+        });
+
+        QUnit.test('An item', function(assert) {
+          assert.equal(getCssPath(document.getElementsByTagName('li')[1]), '#div132 > ul:nth-child(1) > li:nth-child(2)');
+        });
+        QUnit.test('An element with an invalid id', function(assert) {
+          assert.equal(getCssPath(document.getElementsByTagName('div')[3], true), 'body > div:nth-child(4)');
         });
       });
     </script>
