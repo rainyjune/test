@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Test Suite 1</title>
+    <link rel="stylesheet" href="qunit-1.23.1.css">
+  </head>
+  <body>
+    <div id="qunit"></div>
+    <div class=""></div>
+    <div class="divclass"></div>
+    <div id="qunit-fixture">
+
+    </div>
+    <script src="qunit-1.23.1.js"></script>
+    <script src="csspath.js"></script>
+    <script>
+      QUnit.module('Test', function() {
+        QUnit.test('An element with the id attribute', function(assert) {
+          assert.equal(getCssPath(document.getElementById('qunit-fixture')), '#qunit-fixture');
+        });
+
+        QUnit.test('An element with the class attribute', function(assert) {
+          assert.equal(getCssPath(document.getElementsByTagName('div')[2]), '#qunit-fixture');
+        });
+      });
+    </script>
+</body>
+</html>
