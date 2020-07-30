@@ -17,7 +17,18 @@
 
     <div class=""><!-- comments --></div><!-- comments -->
     <div class="divclass divclass2"><!-- comments --></div>
-    <div id="invalid id"></div>
+    <div id="invalid id">
+      <p>This is a <em>paragraph</em>.</p>
+      <p>This is a <em>paragraph</em>.</p>
+      <p>This is a <em>paragraph</em>.</p>
+      <div>This is a <em>divider</em>.</div>
+      <div id="myinnerdiv">This is a <em>divider</em>.</div> <!-- Element to select -->
+      <p>This is a <em>paragraph</em>.</p>
+      <p>This is a <em>paragraph</em>.</p>
+      <div>This is a <em>divider</em>.</div>
+      <p>This is a <em>paragraph</em>.</p>
+      <div>This is a <em>divider</em>.</div>
+    </div>
     <div id="qunit"></div>
     <div id="qunit-fixture">
 
@@ -44,6 +55,10 @@
         });
         QUnit.test('An element with an invalid id', function(assert) {
           assert.equal(getCssPath(document.getElementsByTagName('div')[3], true), 'body > div:nth-child(4)');
+        });
+        
+        QUnit.test('An element with a valid id, but we do not use it', function(assert) {
+          assert.equal(getCssPath(document.getElementById('myinnerdiv'), true), 'body > div:nth-child(4) > :nth-child(5)');
         });
       });
     </script>
