@@ -1443,8 +1443,7 @@ _.getHostname = function(url, defaultValue) {
   try {
     hostname = _.URL(url).hostname;
   } catch (e) {
-    sd.log(e);
-
+    sd.log('getHostname传入的url参数不合法！');
   }
   return hostname || defaultValue;
 };
@@ -2416,7 +2415,7 @@ sd.setPreConfig = function(sa){
 
 sd.setInitVar= function(){
   sd._t = sd._t || 1 * new Date();
-  sd.lib_version = '1.15.12';
+  sd.lib_version = '1.15.13';
   sd.is_first_visitor = false;
   // 标准广告系列来源
   sd.source_channel_standard = 'utm_source utm_medium utm_campaign utm_content utm_term';
@@ -2425,7 +2424,7 @@ sd.setInitVar= function(){
 sd.log = function() {
   if((_.sessionStorage.isSupport() && sessionStorage.getItem('sensorsdata_jssdk_debug') === 'true') || sd.para.show_log){
 
-    if(sd.para.show_log === true || sd.para.show_log === 'string' || sd.para.show_log === false){
+    if(_.isObject(arguments[0]) && (sd.para.show_log === true || sd.para.show_log === 'string' || sd.para.show_log === false)){
       arguments[0] = _.formatJsonString(arguments[0]);
     }
 
@@ -3261,8 +3260,7 @@ sd.detectMode = function(){
           },
           error: function(){},
           type: 'js',
-          //url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
-          url: './vtrack-1466.full.js?r=' + Math.random()
+          url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
         });
       },
       messageListener: function(event) {
@@ -3833,7 +3831,9 @@ sendState.prepareServerUrl = function(){
       this.sendCall(sd.para.server_url[i]);
     }
   }else{
-    this.sendCall(sd.para.server_url,this.requestData.callback);
+    if (sd.para.server_url) {
+      this.sendCall(sd.para.server_url,this.requestData.callback);
+    }
   }
 };
 
@@ -4890,15 +4890,6 @@ sd.bridge = {
     }
     return false;
   },
-  isStyleTagVisual: function(tagname) {
-    var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
-    if (!sd.para.heatmap.collect_tags.div) {
-      return _.indexOf(ignore_tags_default, tagname) > -1;
-    } else if (_.isObject(sd.para.heatmap.collect_tags.div) && _.indexOf(sd.para.heatmap.collect_tags.div.ignore_tags,tagname) > -1) {
-      return true;
-    }
-    return false;
-  },
   isStyleTag:function(tagname, isVisualMode){
     var defaultTag = ['a','div','input','button','textarea'];
     var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
@@ -5150,6 +5141,7 @@ sd.init = function(para){
 
   // iOS Safari
   if (sd._.isIOS() && sd._.getIOSVersion() < 13) {
+    debugger;
     sd._.setCssStyle("div, [data-sensors-click] { cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }");
   }
 };
