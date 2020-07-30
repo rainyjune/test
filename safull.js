@@ -16,6 +16,7 @@ sdk的初始化和组织
   }
 })(function(){
 
+try{
 
 
 var sd = {};
@@ -72,11 +73,11 @@ if(typeof JSON!=='object'){JSON={}}(function(){'use strict';var rx_one=/^[\],:{}
   // 普通的extend，不能到二级
   _.extend = function(obj) {
     each(slice.call(arguments, 1), function(source) {
-      for (var prop in source) {
+      _.eachOwnProperty(source, function(prop, source){
         if (source[prop] !== void 0) {
           obj[prop] = source[prop];
         }
-      }
+      });
     });
     return obj;
   };
@@ -211,6 +212,17 @@ _.isObject = function(obj) {
     return false;
   }else{
     return (toString.call(obj) == '[object Object]');
+  }
+};
+
+// 遍历 object 属性，去除原型链上的自定义属性影响
+_.eachOwnProperty = function(obj, iterator, context){
+  if(_.isObject(obj)){
+    for (var key in obj) {
+      if (hasOwnProperty.call(obj, key)) {
+        iterator.call(context, key, obj);
+      }
+    }
   }
 };
 
@@ -355,6 +367,10 @@ _.throttle = function(func, wait, options) {
       }
       return result;
     };
+};
+
+_.hasOwnProperty = function(prop,obj) {
+  return Object.prototype.hasOwnProperty.call(obj,prop);
 };
 
 _.hashCode = function(str){
@@ -1847,14 +1863,14 @@ _.getReferSearchEngine = function(referrerUrl) {
     sogou: [/^.*\.sogou\.com$/],
     yahoo: [/^.*\.yahoo\.com$/]
   };
-  for (var prop in searchEngineUrls) {
+  _.eachOwnProperty(searchEngineUrls,function(prop, searchEngineUrls){
     var urls = searchEngineUrls[prop];
     for (var i = 0, len = urls.length; i < len; i++) {
       if (urls[i].test(hostname)) {
         return prop;
       }
     }
-  }
+  });
   return '未知搜索引擎';
 };
 
@@ -1937,13 +1953,13 @@ _.info = {
     prefix_add = prefix_add || '';
     var utms = _.info.campaignParams();
     var $utms = {}, otherUtms = {};
-    for (var i in utms) {
+    _.eachOwnProperty(utms,function(i, utms){
       if ((' ' + sd.source_channel_standard + ' ').indexOf(' ' + i + ' ') !== -1) {
         $utms[prefix + i] = utms[i];
       } else {
         otherUtms[prefix_add + i] = utms[i];
       }
-    }
+    });
     return {
       $utms: $utms,
       otherUtms: otherUtms
@@ -2613,13 +2629,13 @@ sd.debug = {
       function getUtm(){
         var utms = _.info.campaignParams();
         var $utms = {};
-        for (var i in utms) {
+        _.eachOwnProperty(utms,function(i, utms){
           if ((' ' + sd.source_channel_standard + ' ').indexOf(' ' + i + ' ') !== -1) {
             $utms['$' + i] = utms[i];
           } else {
             $utms[i] = utms[i];
           }
-        }
+        });
         return $utms;
       }
 
@@ -2663,13 +2679,13 @@ sd.debug = {
 
       var utms = _.info.campaignParams();
       var $utms = {};
-      for (var i in utms) {
+      _.eachOwnProperty(utms,function(i, utms){
         if ((' ' + sd.source_channel_standard + ' ').indexOf(' ' + i + ' ') !== -1) {
           $utms['$' + i] = utms[i];
         } else {
           $utms[i] = utms[i];
         }
-      }
+      });
       // setOnceProfile 如果是新用户，且允许设置profile
       if (sd.is_first_visitor && !para.not_set_profile) {
         sd.setOnceProfile(_.extend({
@@ -2880,11 +2896,11 @@ sd.debug = {
       p[str] = 1;
     }
     function isChecked(p) {
-      for (var i in p) {
+      _.eachOwnProperty(p, function(i, p){
         if (!/-*\d+/.test(String(p[i]))) {
           return false;
         }
-      }
+      });
       return true;
     }
 
@@ -3095,13 +3111,13 @@ sd.debug = {
     function getUtm(){
        var utms = _.info.campaignParams();
        var $utms = {};
-       for (var i in utms) {
-         if ((' ' + sd.source_channel_standard + ' ').indexOf(' ' + i + ' ') !== -1) {
-           $utms['$' + i] = utms[i];
-         } else {
-           $utms[i] = utms[i];
-         }
-       }
+       _.eachOwnProperty(utms,function(i, utms){
+        if ((' ' + sd.source_channel_standard + ' ').indexOf(' ' + i + ' ') !== -1) {
+          $utms['$' + i] = utms[i];
+        } else {
+          $utms[i] = utms[i];
+        }
+       });
        return $utms;
      }
 
@@ -3904,11 +3920,11 @@ saEvent.checkOption = {
 
 saEvent.check = function(p) {
   var flag = true;
-  for (var i in p) {
+  _.eachOwnProperty(p, function(i, p){
     if (!this.checkOption.check(i, p[i])) {
       return false;
     }
-  }
+  },this);
   return flag;
 };
 
@@ -5072,6 +5088,16 @@ if (typeof window['sensorsDataAnalytic201505'] === 'string'){
 }
 
 
+
+
+}catch(err){
+  if (typeof console === 'object' && console.log) {
+    try {console.log(err)} catch (e) {
+      sd.log(e);
+
+    };
+  }
+}
 
 
 
