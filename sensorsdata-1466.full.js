@@ -5140,7 +5140,7 @@ sd.init = function(para){
   sd.detectMode();
 
   // iOS Safari
-  if (sd._.isIOS() && sd._.getIOSVersion() < 13) {
+  if (sd._.isIOS() && sd._.getIOSVersion() < 13 && sd.para.heatmap.collect_tags && sd.para.heatmap.collect_tags.div) {
     debugger;
     sd._.setCssStyle("div, [data-sensors-click] { cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }");
   }
