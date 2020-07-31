@@ -2136,36 +2136,6 @@ _.autoExeQueue = function(){
     return _.rot13obfs(str, n - key);
   };
 
-  _.setCssStyle = function(css) {
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    try {
-      style.appendChild(document.createTextNode(css))
-    } catch(e) {
-      style.styleSheet.cssText = css;
-    }
-    var head = document.getElementsByTagName('head')[0];
-    var firstScript = document.getElementsByTagName('script')[0];
-    if (head) {
-      if (head.children.length) {
-        head.insertBefore(style, head.children[0])
-      } else {
-        head.appendChild(style);
-      }
-    } else {
-      firstScript.parentNode.insertBefore(style, firstScript);
-    }
-  };
-
-  _.isIOS = function() {
-    return !!navigator.userAgent.match(/iPhone|iPad|iPod/i);
-  };
-
-  _.getIOSVersion = function() {
-    var version = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
-    return Number.parseInt(version[1], 10);
-  };
-
 })();
 
 
@@ -2310,6 +2280,7 @@ sd.initPara = function(para){
     sd.para.batch_send = false;
   }
 
+
   var utm_type = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
   var search_type = ['www.baidu.','m.baidu.','m.sm.cn','so.com','sogou.com','youdao.com','google.','yahoo.com/','bing.com/','ask.com/'];
   var social_type = ['weibo.com','renren.com','kaixin001.com','douban.com','qzone.qq.com','zhihu.com','tieba.baidu.com','weixin.qq.com'];
@@ -2321,10 +2292,7 @@ sd.initPara = function(para){
     sd.para.source_type.social = _.isArray(sd.para.source_type.social) ? sd.para.source_type.social.concat(social_type) : social_type;
     sd.para.source_type.keyword = _.isObject(sd.para.source_type.keyword) ?  _.extend(search_keyword,sd.para.source_type.keyword) : search_keyword;
   }
-  var collect_tags_default = {
-    div : false
-  };
-  var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
+
   if(_.isObject(sd.para.heatmap)) {
     sd.para.heatmap.clickmap = sd.para.heatmap.clickmap || 'default';
     sd.para.heatmap.scroll_notice_map = sd.para.heatmap.scroll_notice_map || 'default';
@@ -2332,26 +2300,6 @@ sd.initPara = function(para){
     sd.para.heatmap.scroll_event_duration = sd.para.heatmap.scroll_event_duration || 18000; // The max value of $event_duration property for $WebStay event, in seconds (5 Hours).
     sd.para.heatmap.renderRefreshTime = sd.para.heatmap.renderRefreshTime || 1000;
     sd.para.heatmap.loadTimeout = sd.para.heatmap.loadTimeout || 1000;
-
-    if(_.isObject(sd.para.heatmap.collect_tags)){
-      if(sd.para.heatmap.collect_tags.div === true){
-        sd.para.heatmap.collect_tags.div = {ignore_tags : ignore_tags_default};
-      }else if(_.isObject(sd.para.heatmap.collect_tags.div)){
-        if(sd.para.heatmap.collect_tags.div.ignore_tags){
-          if(!_.isArray(sd.para.heatmap.collect_tags.div.ignore_tags)){
-            sd.log('ignore_tags 参数必须是数组格式');
-            sd.para.heatmap.collect_tags.div.ignore_tags = ignore_tags_default;
-          }
-        }else{
-          sd.para.heatmap.collect_tags.div.ignore_tags = ignore_tags_default;
-        }
-
-      }else{
-        sd.para.heatmap.collect_tags.div = false;
-      }
-    }else{
-      sd.para.heatmap.collect_tags = collect_tags_default;
-    }
   }
   // 优化配置
   if(typeof sd.para.server_url === 'object' && sd.para.server_url.length){
@@ -3279,7 +3227,7 @@ sd.detectMode = function(){
         if (window.removeEventListener) {
           window.removeEventListener("message", vtrackMode.messageListener, false);
         }
-      },
+      },         
       verifyVtrackMode: function(){
         if (window.addEventListener) {
           window.addEventListener("message", vtrackMode.messageListener, false);
@@ -3350,7 +3298,7 @@ sd.detectMode = function(){
             }else{
               sa_jssdk_app_define_mode(sd,isLoaded);
             }
-
+            
           }else{
             //打通失败弹框debug信息传给App
             getAndPostDebugInfo();
@@ -3380,7 +3328,7 @@ sd.detectMode = function(){
       };
 
       defineMode(false);
-
+      
 
       sd.bridge.app_js_bridge_v1();
       // 初始化referrer等页面属性 1.6
@@ -3437,7 +3385,7 @@ sd.detectMode = function(){
     // 通过检查参数，判断是否是点击图模式
     if(heatmapMode.isSeachHasKeyword()){
       heatmapMode.hasKeywordHandle();
-      // 通过检查iframe
+      // 通过检查iframe     
     }else if (window.parent !== self) {
       vtrackMode.verifyVtrackMode();
       // 如果1秒后没有收到有效的回复说是vtrack模式，就进入新的判断
@@ -4890,61 +4838,7 @@ sd.bridge = {
     }
     return false;
   },
-  isStyleTag:function(tagname, isVisualMode){
-    var defaultTag = ['a','div','input','button','textarea'];
-    var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
-    if(_.indexOf(defaultTag,tagname)>-1){
-      return false;
-    }
-    if (isVisualMode && !sd.para.heatmap.collect_tags.div) {
-      return _.indexOf(ignore_tags_default, tagname) > -1;
-    } else if(_.isObject(sd.para.heatmap.collect_tags.div) && _.indexOf(sd.para.heatmap.collect_tags.div.ignore_tags,tagname) > -1){
-      return true;
-    }
-    return false;
-  },
-  isCollectableDiv: function(target, isVisualMode){
-    try {
-      if(target.children.length === 0){
-        return true;
-      }else{
-          for(var i = 0;i<target.children.length;i++){
-            if(target.children[i].nodeType !== 1){
-              continue;
-            }
-            var tag = target.children[i].tagName.toLowerCase();
-            if(this.isStyleTag(tag, isVisualMode)){
-                if (!this.isCollectableDiv(target.children[i], isVisualMode)) {
-                    return false;
-                }
-            }else{
-                return false;
-            }
-          }
-          return true;
-      }
-    } catch (error) {
-      sd.log(error);
-    }
-    return false;
-  },
-  getCollectableParent:function(target, isVisualMode){
-    try {
-      var parent = target.parentNode;
-      var parentName = parent?parent.tagName.toLowerCase():'';
-      if(parentName === 'body'){
-          return false;
-      }
-      if(parentName && parentName === 'div' && this.isCollectableDiv(parent, isVisualMode)){
-          return parent;
-      }else if(parent && this.isStyleTag(parentName, isVisualMode)){
-          return this.getCollectableParent(parent, isVisualMode);
-      }
-    } catch (error) {
-      sd.log(error);
-    }
-    return false;
-  },
+
   initScrollmap: function(){
     if (!_.isObject(sd.para.heatmap) || sd.para.heatmap.scroll_notice_map !== 'default') {
       return false;
@@ -5100,23 +4994,17 @@ sd.bridge = {
         }
 
         var parent_ele = target.parentNode;
-        var hasA = that.hasElement(e);
+
         if(tagName === 'a' || tagName === 'button' || tagName === 'input' || tagName === 'textarea' || _.hasAttribute(target, 'data-sensors-click')){
           that.start(ev, target, tagName);
         }else if(parent_ele.tagName.toLowerCase() === 'button' || parent_ele.tagName.toLowerCase() === 'a'){
           that.start(ev, parent_ele, target.parentNode.tagName.toLowerCase());
         }else if(tagName === 'area' && parent_ele.tagName.toLowerCase() === 'map' && _.ry(parent_ele).prev().tagName && _.ry(parent_ele).prev().tagName.toLowerCase() === 'img'){
           that.start(ev, _.ry(parent_ele).prev(), _.ry(parent_ele).prev().tagName.toLowerCase());
-        }else if(hasA){
-          that.start(ev, hasA, hasA.tagName.toLowerCase());
-        }else if(tagName === 'div' && sd.para.heatmap.collect_tags.div && that.isCollectableDiv(target)){
-          that.start(ev,target,tagName);
-        }else if(that.isStyleTag(tagName)){
-          if(sd.para.heatmap.collect_tags.div){
-            var divTarget = that.getCollectableParent(target);
-            if(divTarget){
-              that.start(ev,divTarget,'div');
-            }
+        }else{
+          var hasA = that.hasElement(e);
+          if(hasA){
+            that.start(ev, hasA, hasA.tagName.toLowerCase());
           }
         }
       });
@@ -5139,11 +5027,6 @@ sd.init = function(para){
 
   sd.detectMode();
 
-  // iOS Safari
-  if (sd._.isIOS() && sd._.getIOSVersion() < 13 && sd.para.heatmap.collect_tags && sd.para.heatmap.collect_tags.div) {
-    debugger;
-    sd._.setCssStyle("div, [data-sensors-click] { cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }");
-  }
 };
 
 var methods = ['track','quick','register','registerPage','registerOnce','trackSignup', 'setProfile','setOnceProfile','appendProfile', 'incrementProfile', 'deleteProfile', 'unsetProfile', 'identify','login','logout','trackLink','clearAllRegister'];
@@ -5171,7 +5054,457 @@ _.each(methods, function(method) {
 });
 
 // Do not remove the following line!
-//__PLUGINS__
+sd.modules['Deeplink'] = (function () {
+  'use strict';
+
+  var hidden;
+  var isWechat = /micromessenger\/([\d.]+)/i.test(navigator.userAgent || '');
+  var getSupportedProperty = function getSupportedProperty() {
+    var result = {};
+
+    if (typeof document.hidden !== 'undefined') {
+      // Opera 12.10 and Firefox 18 and later support
+      result.hidden = 'hidden';
+      result.visibilityChange = 'visibilitychange';
+    } else if (typeof document.msHidden !== 'undefined') {
+      result.hidden = 'msHidden';
+      result.visibilityChange = 'msvisibilitychange';
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      result.hidden = 'webkitHidden';
+      result.visibilityChange = 'webkitvisibilitychange';
+    }
+
+    return result;
+  };
+
+  function isPageHidden() {
+    if (typeof hidden === 'undefined') return false;
+    return document[hidden];
+  }
+
+  hidden = getSupportedProperty().hidden;
+  var OSs = {
+    android: /Android/i,
+    iOS: /iPhone|iPad|iPod/i
+  };
+
+  var getOS = function getOS() {
+    for (var key in OSs) {
+      if (navigator.userAgent.match(OSs[key])) {
+        return key;
+      }
+    }
+
+    return '';
+  };
+
+  var getIOSVersion = function getIOSVersion() {
+    var version = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
+    return Number.parseInt(version[1], 10);
+  }; // Only Chrome for android supports app links on Android.
+
+  var currentOS = getOS();
+  var isSupportedOS = function isSupportedOS() {
+    return OSs.hasOwnProperty(currentOS);
+  };
+  var isObject = function isObject(obj) {
+    if (obj == null) {
+      return false;
+    } else {
+      return toString.call(obj) == '[object Object]';
+    }
+  };
+  var parseShortURL = function parseShortURL(url) {
+    var urlRegexp = /\/sd\/(\w+)\/(\w+)$/;
+    return url.match(urlRegexp);
+  };
+  var parseAPIURL = function parseAPIURL(sd) {
+    var urlParts = sd._.URL(sd.para.server_url);
+
+    return {
+      origin: urlParts.origin,
+      project: urlParts.searchParams.get('project') || 'default'
+    };
+  };
+  var handleAndroidLinks = function handleAndroidLinks(dp,
+  /* deepLink, */
+  scheme, downloadURL) {
+    dp.log('尝试唤起 android app'); //const dest = (isNativeChrome() && deepLink) ? deepLink : scheme;//若app已安装会打开app
+
+    var dest = scheme; // TODO: only schemes are supported at present.
+
+    dp.log('唤起APP的地址：' + dest);
+    window.location = dest;
+    dp.timer = setTimeout(function () {
+      // 如果app未安装会执行这个定时器，否则不会执行
+      var pageHidden = isPageHidden();
+      dp.log('hide:' + hidden + ':' + document[hidden]);
+
+      if (pageHidden) {
+        dp.log('The page is hidden, stop navigating to download page');
+        return false;
+      }
+
+      dp.log('App可能未安装，跳转到下载地址'); // 跳转至 app 下载页面
+
+      window.location = downloadURL;
+    }, dp.timeout);
+  };
+  var handleIOSLinks = function handleIOSLinks(dp, deepLink, downloadURL) {
+    dp.log('尝试唤起 iOS app:' + deepLink);
+    window.location.href = deepLink; //若app已安装会打开app
+
+    dp.timer = setTimeout(function () {
+      // 如果app未安装会执行这个定时器，否则不会执行
+      var pageHidden = isPageHidden();
+
+      if (pageHidden) {
+        dp.log('The page is hidden, stop navigating to download page');
+        return false;
+      }
+
+      dp.log('App可能未安装，跳转到下载地址'); // 跳转至 app 下载页面
+
+      window.location.href = downloadURL;
+    }, dp.timeout);
+    dp.log('new timer:' + dp.timer);
+  };
+
+  var SADeepLink = {
+    key: null,
+    timer: null,
+    sd: null,
+    data: null,
+    timeout: 3000,
+    apiURL: "{origin}/sdk/deeplink/param?key={key}&system_type=JS&project={project}",
+    init: function init(options) {
+      if (this.sd) {
+        this.log('deeplink已经初始化');
+        return false;
+      }
+
+      if (isObject(sensorsDataAnalytic201505)) {
+        this.sd = sensorsDataAnalytic201505;
+      }
+
+      this.log('init()');
+
+      if (this.sd === null) {
+        this.log('神策JS SDK未成功引入');
+        return false;
+      } // 检查当前操作系统是否支持，目前只支持 Android 和 iOS
+
+
+      if (!isSupportedOS()) {
+        this.log('不支持当前系统，目前只支持Android和iOS');
+        return false;
+      }
+
+      if (isObject(options) && this.sd._.isNumber(options.timeout)) {
+        this.timeout = options.timeout;
+      }
+
+      if (!this.sd.para.server_url) {
+        this.log('神策JS SDK配置项server_url未正确配置');
+        return false;
+      }
+
+      var serverInfo = parseAPIURL(this.sd);
+
+      this.apiURL = this.apiURL.replace('{origin}', serverInfo.origin).replace('{project}', serverInfo.project); // 检查落地页 URL 是否含有 deeplink 参数，若无则停止处理
+
+      var deeplinkParam = this.sd._.URL(window.location.href).searchParams.get('deeplink');
+
+      if (!deeplinkParam) {
+        this.log('当前页面缺少deeplink参数');
+        return false;
+      } // 检查解码后的 deeplink 参数值是否符合规范，若不符合要求则停止处理
+
+
+      deeplinkParam = window.decodeURIComponent(deeplinkParam);
+
+      var shortURLParams = parseShortURL(deeplinkParam);
+
+      if (!shortURLParams) {
+        this.log('当前页面的deeplink参数无效');
+        return false;
+      }
+
+      this.key = shortURLParams[2];
+      this.apiURL = this.apiURL.replace('{key}', window.encodeURIComponent(shortURLParams[2])); // 从神策服务器查询深层链接信息
+
+      this.sd._.ajax({
+        url: this.apiURL,
+        type: 'GET',
+        cors: true,
+        //timeout: 5000,
+        credentials: false,
+        success: function (data) {
+          // 没有找到指定 key 的 deeplink 数据，停止处理
+          if (data.errorMsg) {
+            SADeepLink.log('API报错：' + data.errorMsg);
+            return false;
+          }
+
+          SADeepLink.data = data;
+          SADeepLink.log('API查询成功，数据：' + JSON.stringify(data, null, '  '));
+
+          if (this.data.app_key) {
+            if (this.data.android_info && this.data.android_info.url_schemes) {
+              this.data.android_info.url_schemes += '://sensorsdata/sd/' + this.data.app_key + '/' + this.key;
+            }
+
+            if (this.data.ios_info && this.data.ios_info.url_schemes) {
+              this.data.ios_info.url_schemes += '://sensorsdata/sd/' + this.data.app_key + '/' + this.key;
+            }
+          }
+        }.bind(this),
+        error: function error(e) {
+          SADeepLink.log('API查询出错');
+        }
+      });
+
+      this.addListeners();
+    },
+    openDeepLink: function openDeepLink() {
+      this.log('openDeeplink()');
+
+      if (!this.data) {
+        this.log('没有Deep link数据!');
+        return false;
+      }
+
+      if (currentOS === 'iOS') {
+        this.log('当前系统是iOS');
+        var appURL = getIOSVersion() >= 9 && this.data.ios_info.ios_wake_url ? this.data.ios_info.ios_wake_url : this.data.ios_info.url_schemes; // TODO, this.data.ios_info.deeplink_url ||
+        // const appURL = (_.isWechat && this.data.ios_info.deeplink_url) ? this.data.ios_info.deeplink_url : this.data.ios_info.url_schemes;
+
+        this.log('唤起APP的地址：' + appURL);
+
+        handleIOSLinks(this, appURL, this.data.ios_info.download_url);
+      } else {
+        this.log('当前系统是 android');
+
+        handleAndroidLinks(this, this.data.android_info.url_schemes, this.data.android_info.download_url);
+      }
+    },
+    log: function log(message) {
+      if (this.sd) {
+        this.sd.log(message);
+      }
+    },
+    addListeners: function addListeners() {
+      var visibilityName = getSupportedProperty().visibilityChange;
+
+      if (visibilityName) {
+        document.addEventListener(visibilityName, function () {
+          clearTimeout(this.timer);
+          this.log('visibilitychange, clear timeout:' + this.timer);
+        }.bind(this), false);
+      }
+
+      window.addEventListener("pagehide", function () {
+        this.log('page hide, clear timeout:' + this.timer);
+        clearTimeout(this.timer);
+      }.bind(this), false);
+    }
+  };
+
+  if (!isObject(window.SensorsDataWebJSSDKPlugin)) {
+    window.SensorsDataWebJSSDKPlugin = {
+      deeplink: SADeepLink
+    };
+  } else {
+    window.SensorsDataWebJSSDKPlugin.deeplink = window.SensorsDataWebJSSDKPlugin.deeplink || SADeepLink;
+  }
+
+  return SADeepLink;
+
+}());
+
+sd.modules['SiteLinker'] = (function () {
+  'use strict';
+
+  var siteLinker = {};
+
+  // 检查指定URL是否匹配打通规则
+  siteLinker.getPart = function(part) {
+    var temp = false;
+    var len = this.option.length;
+    if(len) {
+      for(var i = 0; i < len; i++) {
+        if(part.indexOf(this.option[i]['part_url']) > -1) {
+          return true;
+        }
+      }
+    }
+    return temp;
+  };
+
+  siteLinker.getPartHash = function(part) {
+    var len = this.option.length;
+    var temp = false;
+    if(len) {
+      for(var i = 0; i < len; i++) {
+        if(part.indexOf(this.option[i]['part_url']) > -1) {
+          return this.option[i]['after_hash'];
+        }
+      }
+    }
+    return !!temp;
+  };
+
+  // 得到当前页面编码后的 ID
+  siteLinker.getCurrenId = function() {
+    var distinct_id = this.store.getDistinctId() || '',
+        first_id = this.store.getFirstId() || '';
+    if (this._.rot13obfs) {
+      distinct_id = distinct_id ? this._.rot13obfs(distinct_id) : '';
+    }
+    // 若有 first_id，则格式是 'f' + distinct_id，对应的旧版格式是 'u' + distinct_id
+    // 否则格式是 'd' + distinct_id，对应的旧版格式是 'a' + distinct_id
+    var urlId = first_id ? 'f' + distinct_id : 'd' + distinct_id;
+    return encodeURIComponent(urlId);
+  };
+
+
+  siteLinker.rewireteUrl = function(url, target) {
+    var reg = /([^?#]+)(\?[^#]*)?(#.*)?/;
+    var arr = reg.exec(url),
+        nurl = '';
+    if(!arr) {
+      return;
+    }
+    var host = arr[1] || '',
+        search = arr[2] || '',
+        hash = arr[3] || '';
+        var idIndex;
+    if(this.getPartHash(url)) {
+      idIndex = hash.indexOf('_sasdk');
+      var queryIndex = hash.indexOf('?');
+      if(queryIndex > -1) {
+        if(idIndex > -1) {
+          nurl = host + search + '#' + hash.substring(1, idIndex) + '_sasdk=' + this.getCurrenId();
+        } else {
+          nurl = host + search + '#' + hash.substring(1) + '&_sasdk=' + this.getCurrenId();
+        }
+      } else {
+        nurl = host + search + '#' + hash.substring(1) + '?_sasdk=' + this.getCurrenId();
+      }
+    } else {
+      idIndex = search.indexOf('_sasdk');
+      var hasQuery = /^\?(\w)+/.test(search);
+      if(hasQuery) {
+        if(idIndex > -1) {
+          nurl = host + '?' + search.substring(1, idIndex) + '_sasdk=' + this.getCurrenId() + hash;
+        } else {
+          nurl = host + '?' + search.substring(1) + '&_sasdk=' + this.getCurrenId() + hash;
+        }
+      } else {
+        nurl = host + '?' + search.substring(1) + '_sasdk=' + this.getCurrenId() + hash;
+      }
+    }
+    
+    if(target) {
+      target.href = nurl;
+    }
+    return nurl;
+  };
+
+  siteLinker.getUrlId = function() {
+    var sa_id = location.href.match(/_sasdk=([aufd][^\?\#\&\=]+)/);
+    if(this._.isArray(sa_id) && sa_id[1]){
+      var uid = decodeURIComponent(sa_id[1]);
+      if (uid && (uid.substring(0,1) === 'f' || uid.substring(0,1) === 'd') && this._.rot13defs) {
+        uid = uid.substring(0,1) + this._.rot13defs(uid.substring(1));
+      }
+      return uid;
+    }else {
+      return '';
+    }
+  };
+
+  siteLinker.setRefferId = function() {
+    var distinct_id = this.store.getDistinctId();
+    var urlId = this.getUrlId();
+    if(urlId === ''){
+      return false;
+    }
+    var isAnonymousId = urlId.substring(0,1) === 'a' || urlId.substring(0,1) === 'd';
+    urlId = urlId.substring(1);
+
+    if(urlId === distinct_id) {
+      return false;
+    }
+    if(urlId && isAnonymousId && this.store.getFirstId()) {
+      this.sd.identify(urlId, true);
+      this.sd.saEvent.send({
+        original_id: urlId,
+        distinct_id: distinct_id,
+        type: 'track_signup',
+        event: '$SignUp',
+        properties: {}
+      }, null);
+    }
+    if(urlId && isAnonymousId && !this.store.getFirstId()) {
+      this.sd.identify(urlId, true);
+    }
+    if(urlId && !isAnonymousId && !this.store.getFirstId()) {
+      this.sd.login(urlId);
+    }
+  };
+
+  siteLinker.addListen = function() {
+    var that = this;
+    that._.addEvent(document, 'mousedown', function(event){
+      var target = event.target;
+      var nodeName = target.tagName;
+      if(nodeName.toLowerCase() === "a" && target.href) {
+        var location = that._.URL(target.href);
+        var protocol = location.protocol;
+        if(protocol === 'http:' || protocol === 'https:') {
+          if(that.getPart(target.href)) {
+            that.rewireteUrl(target.href, target);
+          }
+        }
+      }
+    });
+  };
+
+  siteLinker.init = function(sd, option) {
+    this.sd = sd;
+    this._ = sd._;
+    this.store = sd.store;
+    this.para = sd.para;
+    if(this._.isObject(option) && this._.isArray(option.linker) && option.linker.length > 0) {
+      this.setRefferId();
+      this.addListen();
+    } else {
+      sd.log('请配置打通域名参数！');
+      return;
+    }
+    this.option = option.linker;
+    this.option = resolveOption(this.option);
+
+    function resolveOption(option) {
+      var len = option.length,
+          arr = [];
+      for(var i = 0; i < len; i++) {
+        if(/[A-Za-z0-9]+\./.test(option[i].part_url) && Object.prototype.toString.call(option[i].after_hash) == '[object Boolean]') {
+          arr.push(option[i]);
+        } else {
+          sd.log('linker 配置的第 ' + (i + 1) + ' 项格式不正确，请检查参数格式！');
+        }
+      }
+      //option = arr;
+      return arr;
+    }
+  };
+
+  return siteLinker;
+
+}());
+
 
 
 if (typeof window['sensorsDataAnalytic201505'] === 'string'){
