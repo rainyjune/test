@@ -2136,6 +2136,36 @@ _.autoExeQueue = function(){
     return _.rot13obfs(str, n - key);
   };
 
+  _.setCssStyle = function(css) {
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    try {
+      style.appendChild(document.createTextNode(css))
+    } catch(e) {
+      style.styleSheet.cssText = css;
+    }
+    var head = document.getElementsByTagName('head')[0];
+    var firstScript = document.getElementsByTagName('script')[0];
+    if (head) {
+      if (head.children.length) {
+        head.insertBefore(style, head.children[0])
+      } else {
+        head.appendChild(style);
+      }
+    } else {
+      firstScript.parentNode.insertBefore(style, firstScript);
+    }
+  };
+
+  _.isIOS = function() {
+    return !!navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  };
+
+  _.getIOSVersion = function() {
+    var version = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
+    return Number.parseInt(version[1], 10);
+  };
+
 })();
 
 
@@ -2280,7 +2310,6 @@ sd.initPara = function(para){
     sd.para.batch_send = false;
   }
 
-
   var utm_type = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
   var search_type = ['www.baidu.','m.baidu.','m.sm.cn','so.com','sogou.com','youdao.com','google.','yahoo.com/','bing.com/','ask.com/'];
   var social_type = ['weibo.com','renren.com','kaixin001.com','douban.com','qzone.qq.com','zhihu.com','tieba.baidu.com','weixin.qq.com'];
@@ -2292,7 +2321,10 @@ sd.initPara = function(para){
     sd.para.source_type.social = _.isArray(sd.para.source_type.social) ? sd.para.source_type.social.concat(social_type) : social_type;
     sd.para.source_type.keyword = _.isObject(sd.para.source_type.keyword) ?  _.extend(search_keyword,sd.para.source_type.keyword) : search_keyword;
   }
-
+  var collect_tags_default = {
+    div : false
+  };
+  var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
   if(_.isObject(sd.para.heatmap)) {
     sd.para.heatmap.clickmap = sd.para.heatmap.clickmap || 'default';
     sd.para.heatmap.scroll_notice_map = sd.para.heatmap.scroll_notice_map || 'default';
@@ -2300,6 +2332,26 @@ sd.initPara = function(para){
     sd.para.heatmap.scroll_event_duration = sd.para.heatmap.scroll_event_duration || 18000; // The max value of $event_duration property for $WebStay event, in seconds (5 Hours).
     sd.para.heatmap.renderRefreshTime = sd.para.heatmap.renderRefreshTime || 1000;
     sd.para.heatmap.loadTimeout = sd.para.heatmap.loadTimeout || 1000;
+
+    if(_.isObject(sd.para.heatmap.collect_tags)){
+      if(sd.para.heatmap.collect_tags.div === true){
+        sd.para.heatmap.collect_tags.div = {ignore_tags : ignore_tags_default};
+      }else if(_.isObject(sd.para.heatmap.collect_tags.div)){
+        if(sd.para.heatmap.collect_tags.div.ignore_tags){
+          if(!_.isArray(sd.para.heatmap.collect_tags.div.ignore_tags)){
+            sd.log('ignore_tags 参数必须是数组格式');
+            sd.para.heatmap.collect_tags.div.ignore_tags = ignore_tags_default;
+          }
+        }else{
+          sd.para.heatmap.collect_tags.div.ignore_tags = ignore_tags_default;
+        }
+
+      }else{
+        sd.para.heatmap.collect_tags.div = false;
+      }
+    }else{
+      sd.para.heatmap.collect_tags = collect_tags_default;
+    }
   }
   // 优化配置
   if(typeof sd.para.server_url === 'object' && sd.para.server_url.length){
@@ -3227,7 +3279,7 @@ sd.detectMode = function(){
         if (window.removeEventListener) {
           window.removeEventListener("message", vtrackMode.messageListener, false);
         }
-      },         
+      },
       verifyVtrackMode: function(){
         if (window.addEventListener) {
           window.addEventListener("message", vtrackMode.messageListener, false);
@@ -3298,7 +3350,7 @@ sd.detectMode = function(){
             }else{
               sa_jssdk_app_define_mode(sd,isLoaded);
             }
-            
+
           }else{
             //打通失败弹框debug信息传给App
             getAndPostDebugInfo();
@@ -3328,7 +3380,7 @@ sd.detectMode = function(){
       };
 
       defineMode(false);
-      
+
 
       sd.bridge.app_js_bridge_v1();
       // 初始化referrer等页面属性 1.6
@@ -3385,7 +3437,7 @@ sd.detectMode = function(){
     // 通过检查参数，判断是否是点击图模式
     if(heatmapMode.isSeachHasKeyword()){
       heatmapMode.hasKeywordHandle();
-      // 通过检查iframe     
+      // 通过检查iframe
     }else if (window.parent !== self) {
       vtrackMode.verifyVtrackMode();
       // 如果1秒后没有收到有效的回复说是vtrack模式，就进入新的判断
@@ -4838,7 +4890,61 @@ sd.bridge = {
     }
     return false;
   },
-
+  isStyleTag:function(tagname, isVisualMode){
+    var defaultTag = ['a','div','input','button','textarea'];
+    var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
+    if(_.indexOf(defaultTag,tagname)>-1){
+      return false;
+    }
+    if (isVisualMode && !sd.para.heatmap.collect_tags.div) {
+      return _.indexOf(ignore_tags_default, tagname) > -1;
+    } else if(_.isObject(sd.para.heatmap.collect_tags.div) && _.indexOf(sd.para.heatmap.collect_tags.div.ignore_tags,tagname) > -1){
+      return true;
+    }
+    return false;
+  },
+  isCollectableDiv: function(target, isVisualMode){
+    try {
+      if(target.children.length === 0){
+        return true;
+      }else{
+          for(var i = 0;i<target.children.length;i++){
+            if(target.children[i].nodeType !== 1){
+              continue;
+            }
+            var tag = target.children[i].tagName.toLowerCase();
+            if(this.isStyleTag(tag, isVisualMode)){
+                if (!this.isCollectableDiv(target.children[i], isVisualMode)) {
+                    return false;
+                }
+            }else{
+                return false;
+            }
+          }
+          return true;
+      }
+    } catch (error) {
+      sd.log(error);
+    }
+    return false;
+  },
+  getCollectableParent:function(target, isVisualMode){
+    try {
+      var parent = target.parentNode;
+      var parentName = parent?parent.tagName.toLowerCase():'';
+      if(parentName === 'body'){
+          return false;
+      }
+      if(parentName && parentName === 'div' && this.isCollectableDiv(parent, isVisualMode)){
+          return parent;
+      }else if(parent && this.isStyleTag(parentName, isVisualMode)){
+          return this.getCollectableParent(parent, isVisualMode);
+      }
+    } catch (error) {
+      sd.log(error);
+    }
+    return false;
+  },
   initScrollmap: function(){
     if (!_.isObject(sd.para.heatmap) || sd.para.heatmap.scroll_notice_map !== 'default') {
       return false;
@@ -4994,17 +5100,23 @@ sd.bridge = {
         }
 
         var parent_ele = target.parentNode;
-
+        var hasA = that.hasElement(e);
         if(tagName === 'a' || tagName === 'button' || tagName === 'input' || tagName === 'textarea' || _.hasAttribute(target, 'data-sensors-click')){
           that.start(ev, target, tagName);
         }else if(parent_ele.tagName.toLowerCase() === 'button' || parent_ele.tagName.toLowerCase() === 'a'){
           that.start(ev, parent_ele, target.parentNode.tagName.toLowerCase());
         }else if(tagName === 'area' && parent_ele.tagName.toLowerCase() === 'map' && _.ry(parent_ele).prev().tagName && _.ry(parent_ele).prev().tagName.toLowerCase() === 'img'){
           that.start(ev, _.ry(parent_ele).prev(), _.ry(parent_ele).prev().tagName.toLowerCase());
-        }else{
-          var hasA = that.hasElement(e);
-          if(hasA){
-            that.start(ev, hasA, hasA.tagName.toLowerCase());
+        }else if(hasA){
+          that.start(ev, hasA, hasA.tagName.toLowerCase());
+        }else if(tagName === 'div' && sd.para.heatmap.collect_tags.div && that.isCollectableDiv(target)){
+          that.start(ev,target,tagName);
+        }else if(that.isStyleTag(tagName)){
+          if(sd.para.heatmap.collect_tags.div){
+            var divTarget = that.getCollectableParent(target);
+            if(divTarget){
+              that.start(ev,divTarget,'div');
+            }
           }
         }
       });
@@ -5027,6 +5139,10 @@ sd.init = function(para){
 
   sd.detectMode();
 
+  // iOS Safari
+  if (sd._.isIOS() && sd._.getIOSVersion() < 13 && sd.para.heatmap.collect_tags && sd.para.heatmap.collect_tags.div) {
+    sd._.setCssStyle("div, [data-sensors-click] { cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }");
+  }
 };
 
 var methods = ['track','quick','register','registerPage','registerOnce','trackSignup', 'setProfile','setOnceProfile','appendProfile', 'incrementProfile', 'deleteProfile', 'unsetProfile', 'identify','login','logout','trackLink','clearAllRegister'];
