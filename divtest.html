@@ -1,0 +1,412 @@
+
+<!doctype html>
+<html lang="en">
+    
+    <head>
+        <meta http-equiv="Content-Type" content="charset=UTF-8">
+        <meta name="viewport" content="initial-scale=1, maximum=1,minimum=1, user-scalable=no" />
+       <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+        <!--引入JQuery文件-->
+        <title>浮层的简单原理</title>
+        <style>
+        /*body初始状态,清间距,设置背景*/
+        body
+        {
+            margin: 0;
+            padding: 0;
+            /* background-color: lver; */
+        }
+        /*超链接的样式:蓝色按钮*/
+        /* a
+        {
+            display: inline-block;
+            width: 100px;
+            height: 50px;
+            font:normal normal normal 18px/50px 'Microsoft Yahei';
+            background-color: #00b3ee;
+            text-align: center;
+            margin: 100px 200px;
+            text-decoration: none;
+            border-radius: 5px;
+        } */
+        /*人为制造一个占据整个屏幕的Div,其透明度为0.7且z-index为9999使之前的页面被压在底层无法点击*/
+        #fullScreen
+        {
+            position: fixed;
+            width: auto
+            height: 100%;
+            left: 0;
+            top: 0;
+            opacity: 0.7;
+            background-color: black;
+            z-index: 9999;
+        }
+@media screen and (max-device-width: 400px) 
+{  .left {
+	 float:none;
+   } 
+ }
+
+        html{font-size:62.5%;}
+        body {font:normal 100% Arial,sans-serif;font-size:14px; font-size:1.4rem; } 
+        /*浮层,可随意设置大小宽高，但是z-index必须比上面fullScreen大才能显示出来*/
+        #floatLayer
+        {
+            position: fixed;
+            width: auto;
+            height: 500px;
+            left: 34%;
+            top: 15%;
+            background-color: white;
+            z-index: 10000;
+        }
+
+        #show
+        {
+            /* display: inline-block; */
+            width: auto;
+            height: 50px;
+            font:normal normal normal 18px/50px 'Microsoft Yahei';
+            background-color: #00b3ee;
+            text-align: center;
+            margin: 100px 200px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 30px;
+        }
+        #main
+        {
+            /* margin-top: 40px; */
+            /* margin: 0px auto;
+            top: 20px; */
+            width:auto;
+        height: 1200px;
+        background-color:cornflowerblue;
+        margin: 0 auto;
+        background-color: bisque;
+        }
+        .divcenter
+        {
+            float: left;
+            width: 50%;
+            height: 300px;
+            scroll-behavior: auto;
+        }
+
+        li:hover
+        {
+            display: inline;
+
+            background-color: deepskyblue;
+        }
+        /* div{border-top:1px solid #000}  */
+        /* #mouseenter:hover{
+            display: block;
+
+        } */
+        
+        /* #mouseenter:hover ul{
+            display: block;
+        } */
+
+        /* div{
+
+        font-size:19px; 
+        cursor:auto;
+        -webkit-tap-highlight-color: rgba(255,1,0,1);
+
+        } */
+
+        </style>
+        <link rel="stylesheet" href="testdiv.css" type="text/css" />
+        <script>
+           (function(para) {
+                var p = para.sdk_url, n = para.name, w = window, d = document, s = 'script',x = null,y = null;
+                if(typeof(w['sensorsDataAnalytic201505']) !== 'undefined') {
+                    return false;
+                }
+                w['sensorsDataAnalytic201505'] = n;//'sensors'
+                w[n] = w[n] || function(a) {return function() {(w[n]._q = w[n]._q || []).push([a, arguments]);}};
+                var ifs = ['track','quick','register','registerPage','registerOnce','trackSignup', 'trackAbtest', 'setProfile','setOnceProfile','appendProfile', 'incrementProfile', 'deleteProfile', 'unsetProfile', 'identify','login','logout','trackLink','clearAllRegister','getAppStatus'];
+                for (var i = 0; i < ifs.length; i++) {
+                    w[n][ifs[i]] = w[n].call(null, ifs[i]);
+                }
+                if (!w[n]._t) {
+                    x = d.createElement(s), y = d.getElementsByTagName(s)[0];
+                    x.async = 1;
+                    x.src = p;
+                    x.setAttribute('charset','UTF-8');
+                    w[n].para = para;
+                    y.parentNode.insertBefore(x, y);
+                }
+            })({
+                sdk_url:'./sdk1466/sensorsdata.full.js',
+                heatmap_url: './sdk1466/heatmap.full.js',
+                //子配置项 true 表示采集,false 表示不采集,未设置的参数取默认值。
+preset_properties: {
+	//是否采集 $latest_utm 最近一次广告系列相关参数，默认值 true。
+	latest_utm:true,
+	//是否采集 $latest_traffic_source_type 最近一次流量来源类型，默认值 true。
+	latest_traffic_source_type:true,
+	//是否采集 $latest_search_keyword 最近一次搜索引擎关键字，默认值 true。
+	latest_search_keyword:true,
+	//是否采集 $latest_referrer 最近一次前向地址，默认值 true。
+	latest_referrer:true,
+	//是否采集 $latest_referrer_host 最近一次前向地址，1.14.8 以下版本默认是true，1.14.8 及以上版本默认是 false，需要手动设置为 true 开启。
+	latest_referrer_host:true,
+	//是否采集 $latest_landing_page 最近一次落地页地址，默认值 false。
+	latest_landing_page:true,
+	//是否采集 $url 页面地址作为公共属性，默认值 false。
+	url: false,
+	//是否采集 $title 页面标题作为公共属性，默认值 false。
+	title: false,
+},
+                name: 'sensors',
+                //数据接收地址
+                server_url:'https://newsdktest.datasink.sensorsdata.cn/sa?project=jiangjicheng&token=5a394d2405c147ca',
+                heatmap:{   
+                    // clickmap:'default',
+                    // collect_tags:{
+                    //         div : true
+                    //  }
+                    collect_tags:{ div:{
+                        ignore_tags: ['span']
+                    } }
+                    
+                    // collect_tags:{ divd1 : true }	
+
+                    
+                },
+                is_track_single_page:true,
+                //打通参数
+                app_js_bridge:{
+                    white_list:[
+                        'https://newsdktest.datasink.sensorsdata.cn/sa?project=jiangjicheng&token=5a394d2405c147ca',
+                        
+                    ]
+                }
+            });
+            sensors.quick('autoTrack');
+
+           
+            </script>
+            <script>
+
+
+
+        function showdiv(){
+//       
+
+var obj = window.getComputedStyle(document.querySelector("#div_bottom12"));
+// var obj = window.getComputedStyle(data.target);
+
+cursor1=obj.getPropertyValue("cursor");
+highlight=obj.getPropertyValue("-webkit-tap-highlight-color");
+fontsize=obj.getPropertyValue("font-size");
+
+
+// var obj = window.getComputedStyle(document.querySelector("#qq")).style.cssText;
+
+
+
+alert(cursor1+":"+highlight+":"+fontsize);
+
+}
+            </script>
+    </head>
+    <body>
+        
+        <div>
+            <div  id="qq12" style="height: 40px;background-color: #00b3ee;position: fixed;width: 100%;">
+            <a href="#" id="show">登录</a>
+            <a href="#">注册</a>
+            <div style="margin-left: 1400px;padding-top: 0px;" id="mouseenter"><span style="font-size: 26px;flood-color: magenta;">菜单</span>
+                <ul class="rr" style="list-style: none;padding: 0px;" >
+
+                    <li><a href="./index.html" target="_blank">香蕉</a></li>
+                    <li><a href="./index.html">苹果</a></li>
+                    <li><a href="./indexBB.html">自跳转</a></li>
+                    <li><a href="http://www.baidu.com" id="n#.png">到百度</a></li>
+                    <li><a href="#">小马</a></li>
+                    
+                    
+                    </ul>
+                </div>
+            
+            <!-- <div style="margin-top: 0px;position:absolute;">
+
+                <ul class="rr" style="list-style: none;margin-left: 1200px;padding: 2px;display: none;" >
+
+                    <li><a href="./index.html" target="_blank">香蕉</a></li>
+                    <li><a href="./index.html">苹果</a></li>
+                    <li><a href="./indexBB.html">自跳转</a></li>
+                    <li><a href="http://www.baidu.com" id="n#.png">到百度</a></li>
+                    <li><a href="#">小马</a></li>
+                    
+                    
+                    </ul>
+            </div> -->
+
+            
+            </div>
+
+        </div>
+        <div id="main">
+
+            <div style="padding-top: 40px;" id="main">
+                <a href="./indexdiv.html"> 自跳转</a>
+                <!-- -webkit-tap-highlight-color: rgba(255,0,0,0.5);  -->
+                <!-- onclick="showdiv() -->
+                <!-- onclick="showdiv()" -->
+                 <!-- onclick="showdiv()"  -->
+                <div id="div_bottom12" name="div_0" class="divcenter" onclick="showdiv()"  style="cursor:auto">woshi div</div>
+
+                <div  id="qq1" class="divcenter" style="background-color: chocolate; "name="div_1"><div name="div_0" class="divcenter"><div>
+                    <div>
+                        <div>
+                            <div>
+                                <div>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div style="background-color: crimson;">我是10层
+            <div name="div_name_0" class="div_0_11" id="div_bottom" onclick="showdiv()"  ><span>我是span</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div></div>
+               
+               
+             
+            </div>
+            <div  id="div_0_id" class="div_0_class" name="div_defualt"> 
+                该div 仅&nbsp;包含ul
+                <ul><span>我是被包含的spn<div style="height: 20px; background-color: dimgrey;"><UL>我是mark</ul></div></span></ul>
+                <div>
+                    <mark>markya</mark>
+                    <DEL>我是 del</del>
+                    <SUp>我是 sup</sup>
+                    <ins>我是 ins</ins>
+                    <em>我是 em</em>
+                    <abbr>我是abbr</abbr>
+                    <u>我是 u</u>
+                </div>
+               
+
+            </div>
+            <DIV name="div_100" style="background-color: darkgreen;"  id="div_0_id" class="div_0_class_notdefault"> 仅包含非默认定义标签范围内的标签
+                <p>我是 p 标签</p>
+                <img src=""/>
+                <span>我是 span</span>
+                <ul>
+                    <li>
+                        我是ul -li
+                    </li>
+                </ul>
+
+            </div>
+            <div  style="background-color:deepskyblue;" name="ulll" id="div_0_id" class="div_0_class_notdefault">默认样式标签
+                
+                
+                <SUp>我是 sup</sup>
+                <ins>我是 ins</ins>
+                <abbr>我是abbr</abbr>
+
+            </div>
+            <div class="banner" style="width: 100%;">
+                div 中包含 img<img height="100px" style="width: 100%;" src="/Users/jiejiang/Downloads/123.jpg">
+            </div>
+
+
+            </div>
+            <div id="div_append" style="background-color:deepskyblue">
+                append 追加 html
+
+
+            </div>
+            <div>div 中包含 a,  input，button，textarea
+                <a id="woshi">我是a</a>
+                <button>我是button<a>我是button中的a</a></button>
+                <input value="我是input" />
+                <textarea><a>
+                    <a>
+                        <a>
+                            <a>
+                                <a>好几层的a</a>
+                            </a>
+                        </a>
+                    </a>
+                </a></textarea>
+            </div>
+            </div>
+       
+
+    </body>
+</html>
+<script>
+    // 菜单展示引藏
+    
+
+    $("document").ready(function()
+
+    {
+
+        $("#div_append").click(function(){
+            $("#div_append").append(
+                "<p>p 标签被加入了</p>"
+            )
+
+
+        });
+        $(".rr").hide();
+        $("#mouseenter").hover(function () {
+                $(".rr").show();
+            }, function () {
+                $(".rr").hide();
+            });
+            // $("#mouseenter").click(function () {
+            //     $(".rr").hide();
+            // });
+
+        //点击弹出浮层
+        $("#show").click(function()
+        {
+            //清除之前的样式
+            $("#fullScreen,#floatLayer").remove();
+            $("body").append
+            (
+                //占据整个屏幕Div
+                "<div id='fullScreen'></div>"+
+                //浮层区
+                "<div id='floatLayer1'>" +
+                    "<a href='#' id='hide'>隐藏浮层</a>"+"<br />"+
+                    "姓名<input href='#' id='hide1'></input>"+
+                    "<div id='floatLayer' style='cursor:help'>"
+                    +"<mark onclick='showdiv()'>我是mark</mark>"+
+                    +"<strong>我是mark</strong>"+"<em>我是mark</em>"
+                    +"<sup>我是mark</sup>"+
+                    +"<mark>我是markponiter</mark>"
+
+                    +"</div>"+
+                "</div>"
+                
+            );
+
+
+            //隐藏浮层
+            $("#hide").click(function()
+            {
+                $("#fullScreen,#floatLayer").remove();
+            });
+        });
+    });
+</script>
