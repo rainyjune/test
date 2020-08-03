@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
     
@@ -143,7 +142,7 @@
                     y.parentNode.insertBefore(x, y);
                 }
             })({
-                sdk_url:'./sdk1466/sensorsdata.full.js',
+                sdk_url:'./sensorsdata-1466.full.js?r=' + Math.random(),
                 heatmap_url: './sdk1466/heatmap.full.js',
                 //子配置项 true 表示采集,false 表示不采集,未设置的参数取默认值。
 preset_properties: {
@@ -166,7 +165,8 @@ preset_properties: {
 },
                 name: 'sensors',
                 //数据接收地址
-                server_url:'https://newsdktest.datasink.sensorsdata.cn/sa?project=jiangjicheng&token=5a394d2405c147ca',
+                //server_url:'https://newsdktest.datasink.sensorsdata.cn/sa?project=jiangjicheng&token=5a394d2405c147ca',
+                server_url: 'https://jssdkdata.debugbox.sensorsdata.cn/sa?project=chenkang',
                 heatmap:{   
                     // clickmap:'default',
                     // collect_tags:{
