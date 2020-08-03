@@ -46,8 +46,10 @@ p {
       
       setTimeout(function() {
         var newP = document.createElement('p');
-        newP.innerHTML = 'A new P default cursor:pointer;';
+        newP.innerHTML = 'A new P default cursor:pointer; then injectcss';
         document.getElementById('outerDIV').appendChild(newP);
+        
+        injectCSS();
       }, 3000);
     </script>
   </body>
