@@ -4,6 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>iOS Safari Click Test</title>
+<style type="text/css">
+p {
+  cursor: pointer;
+}
+</style>
   </head>
   <body>
     <div id="outerDIV">
@@ -41,7 +46,7 @@
       
       setTimeout(function() {
         var newP = document.createElement('p');
-        newP.innerHTML = 'A new P without injectCSS';
+        newP.innerHTML = 'A new P default cursor:pointer;';
         document.getElementById('outerDIV').appendChild(newP);
       }, 3000);
     </script>
