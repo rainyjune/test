@@ -2324,6 +2324,7 @@ sd.initPara = function(para){
   var collect_tags_default = {
     div : false
   };
+  debugger;
   var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
   if(_.isObject(sd.para.heatmap)) {
     sd.para.heatmap.clickmap = sd.para.heatmap.clickmap || 'default';
@@ -3261,7 +3262,7 @@ sd.detectMode = function(){
           error: function(){},
           type: 'js',
           //url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
-url: './vtrack-1466.full.js?r=' + Math.random()
+url: './vtrack-1466.full.js'
         });
       },
       messageListener: function(event) {
