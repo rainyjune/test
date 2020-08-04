@@ -3208,7 +3208,8 @@ sd.detectMode = function(){
           },
           error: function(){},
           type: 'js',
-          url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
+          //url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
+          url: './vtrack_heatmapnull.js?r' + Math.random()
         });
       },
       messageListener: function(event) {
