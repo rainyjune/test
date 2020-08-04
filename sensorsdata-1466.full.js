@@ -3260,8 +3260,7 @@ sd.detectMode = function(){
           },
           error: function(){},
           type: 'js',
-          //url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
-          url: './vtrack-1466.full.js?r=' + Math.random()
+          url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
         });
       },
       messageListener: function(event) {
@@ -4897,6 +4896,7 @@ sd.bridge = {
     if(_.indexOf(defaultTag,tagname)>-1){
       return false;
     }
+    debugger;
     if (isVisualMode && !sd.para.heatmap.collect_tags.div) {
       return _.indexOf(ignore_tags_default, tagname) > -1;
     } else if(_.isObject(sd.para.heatmap.collect_tags.div) && _.indexOf(sd.para.heatmap.collect_tags.div.ignore_tags,tagname) > -1){
