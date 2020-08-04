@@ -2324,7 +2324,6 @@ sd.initPara = function(para){
   var collect_tags_default = {
     div : false
   };
-  debugger;
   var ignore_tags_default = ['mark','/mark','strong','b','em','i','u','abbr','ins','del','s','sup'];
   if(_.isObject(sd.para.heatmap)) {
     sd.para.heatmap.clickmap = sd.para.heatmap.clickmap || 'default';
@@ -2334,6 +2333,7 @@ sd.initPara = function(para){
     sd.para.heatmap.renderRefreshTime = sd.para.heatmap.renderRefreshTime || 1000;
     sd.para.heatmap.loadTimeout = sd.para.heatmap.loadTimeout || 1000;
 
+    debugger;
     if(_.isObject(sd.para.heatmap.collect_tags)){
       if(sd.para.heatmap.collect_tags.div === true){
         sd.para.heatmap.collect_tags.div = {ignore_tags : ignore_tags_default};
@@ -3262,7 +3262,7 @@ sd.detectMode = function(){
           error: function(){},
           type: 'js',
           //url: location.protocol + '//static.sensorsdata.cn/sdk/'+ sd.lib_version + '/vtrack.min.js'
-url: './vtrack-1466.full.js'
+          url: './vtrack-1466.full.js'
         });
       },
       messageListener: function(event) {
@@ -3811,7 +3811,7 @@ sendState.getSendCall = function(data, config, callback) {
     config: config,
     callback: callback
   };
-  
+
   sd.events.tempAdd('send',originData);
 
   if(!sd.para.app_js_bridge && sd.para.batch_send && localStorage.length < 200){
@@ -4165,7 +4165,7 @@ cookie的数据存储
           delete this._state._distinct_id;
         }
         this.save();
-        
+
       },
       // 针对当前页面修改
       change: function(name, value) {
@@ -4467,7 +4467,7 @@ sd.bridge = {
     }else if(sd.para.use_app_track === 'mui'){
       app_js_bridge_default.is_mui = true;
       sd.para.app_js_bridge = _.extend({},app_js_bridge_default);
-    }    
+    }
     if(sd.para.app_js_bridge.is_send === false){
       sd.log('设置了 is_send:false,如果打通失败，数据将被丢弃！');
     }
@@ -4510,7 +4510,7 @@ sd.bridge = {
           if(checkProjectAndHost(window.SensorsData_iOS_JS_Bridge.sensorsdata_app_server_url)){
             sd.bridge.is_verify_success = true;
           }
-         
+
       }else if(_.isObject(window.SensorsData_APP_New_H5_Bridge) && window.SensorsData_APP_New_H5_Bridge.sensorsdata_get_server_url && window.SensorsData_APP_New_H5_Bridge.sensorsdata_track){
         var app_server_url = window.SensorsData_APP_New_H5_Bridge.sensorsdata_get_server_url();
         if(app_server_url){
@@ -4518,7 +4518,7 @@ sd.bridge = {
             sd.bridge.is_verify_success = true;
           }
         }
-     
+
       }
     }
   },
@@ -4527,7 +4527,7 @@ sd.bridge = {
       touch_app_bridge: true,
       verify_success: false
     };
-    
+
     if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.sensorsdataNativeTracker && window.webkit.messageHandlers.sensorsdataNativeTracker.postMessage && _.isObject(window.SensorsData_iOS_JS_Bridge) && window.SensorsData_iOS_JS_Bridge.sensorsdata_app_server_url) {
       if (sd.bridge.is_verify_success) {
         resultObj.verify_success = 'success';
@@ -4607,7 +4607,7 @@ sd.bridge = {
             that.prepareServerUrl();
           }else{
             (typeof callback === 'function') && callback();
-          }       
+          }
         }
       }else if(_.isObject(window.SensorsData_APP_New_H5_Bridge) && window.SensorsData_APP_New_H5_Bridge.sensorsdata_get_server_url && window.SensorsData_APP_New_H5_Bridge.sensorsdata_track){
         if(sd.bridge.is_verify_success){
@@ -4624,8 +4624,8 @@ sd.bridge = {
           }else{
             (typeof callback === 'function') && callback();
           }
-   
-        }   
+
+        }
       }else if((typeof SensorsData_APP_JS_Bridge === 'object') && (SensorsData_APP_JS_Bridge.sensorsdata_verify || SensorsData_APP_JS_Bridge.sensorsdata_track)){
         // 如果有新版方式，优先用新版
         if(SensorsData_APP_JS_Bridge.sensorsdata_verify){
@@ -4691,7 +4691,7 @@ sd.bridge = {
         if(_.isObject(sd.para.app_js_bridge) && sd.para.app_js_bridge.is_send === true){
           that.prepareServerUrl();
         }else{
-          (typeof callback === 'function') && callback(); 
+          (typeof callback === 'function') && callback();
         }
       }
     } else{
@@ -4898,10 +4898,9 @@ sd.bridge = {
     if(_.indexOf(defaultTag,tagname)>-1){
       return false;
     }
-    debugger;
-    if (isVisualMode && !sd.para.heatmap.collect_tags.div) {
+    if (isVisualMode && (!sd.para.heatmap || !sd.para.heatmap.collect_tags || !sd.para.heatmap.collect_tags.div)) {
       return _.indexOf(ignore_tags_default, tagname) > -1;
-    } else if(_.isObject(sd.para.heatmap.collect_tags.div) && _.indexOf(sd.para.heatmap.collect_tags.div.ignore_tags,tagname) > -1){
+    } else if(_.isObject(sd.para.heatmap) && _.isObject(sd.para.heatmap.collect_tags) && _.isObject(sd.para.heatmap.collect_tags.div) && _.indexOf(sd.para.heatmap.collect_tags.div.ignore_tags,tagname) > -1){
       return true;
     }
     return false;
@@ -5181,7 +5180,7 @@ if (typeof window['sensorsDataAnalytic201505'] === 'string'){
   sd.setPreConfig(window[sensorsDataAnalytic201505]);
   window[sensorsDataAnalytic201505] = sd;
   window['sensorsDataAnalytic201505'] = sd;
-  sd.init();  
+  sd.init();
 } else if (typeof window['sensorsDataAnalytic201505'] === 'undefined'){
   //module模式，或者webpack打包
   window['sensorsDataAnalytic201505'] = sd;
