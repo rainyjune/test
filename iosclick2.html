@@ -43,10 +43,11 @@
       
       setTimeout(function() {
         var newP = document.createElement('p');
-        newP.innerHTML = 'A new P default cursor:pointer; then injectcss';
+        newP.style = 'margin: 10px; background-color: black; color: white;';
+        newP.innerHTML = 'A new P default';
         document.getElementById('outerDIV').appendChild(newP);
         
-        injectCSS();
+        //injectCSS();
       }, 3000);
     </script>
   </body>
