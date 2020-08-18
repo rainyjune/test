@@ -9,17 +9,20 @@
     <script>
 if (window.requestIdleCallback) {
     requestIdleCallback(function () {
-        Fingerprint2.get(function (components) {
-          console.log(components) // an array of components: {key: ..., value: ...}
-        })
+        Fingerprint2.get(getHash)
     })
 } else {
     setTimeout(function () {
-        Fingerprint2.get(function (components) {
-          console.log(components) // an array of components: {key: ..., value: ...}
-        })  
+        Fingerprint2.get(getHash)  
     }, 500)
 }
+      
+function getHash(components) {
+    var values = components.map(function (component) { return component.value });
+    var murmur = Fingerprint2.x64hash128(values.join(''), 31);
+  console.log('Hash:', murmur);
+}
+      
     </script>
   </body>
 </html>
