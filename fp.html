@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>fingerprint2.js</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/dist/fingerprint2.min.js"></script>
+    <script>
+if (window.requestIdleCallback) {
+    requestIdleCallback(function () {
+        Fingerprint2.get(function (components) {
+          console.log(components) // an array of components: {key: ..., value: ...}
+        })
+    })
+} else {
+    setTimeout(function () {
+        Fingerprint2.get(function (components) {
+          console.log(components) // an array of components: {key: ..., value: ...}
+        })  
+    }, 500)
+}
+    </script>
+  </body>
+</html>
