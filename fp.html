@@ -107,6 +107,7 @@ if (window.requestIdleCallback) {
 }
       
 function getHash(components) {
+  console.log('components:', components);
     var values = components.map(function (component) { return component.value });
     var murmur = Fingerprint2.x64hash128(values.join(''), 31);
   console.log('Hash:', murmur);
