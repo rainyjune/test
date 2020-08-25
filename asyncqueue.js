@@ -1,6 +1,12 @@
-function Queue() {
+function Queue(options) {
   var taskList = [];
   var isRunning = false;
+  var autoStart = true;
+  if (typeof options === "object") {
+    if (options.hasOwnProperty("autoStart")) {
+      autoStart = !!options.autoStart;
+    }
+  }
   
   this.enqueue = function(task) {
     taskList.push(task);
@@ -20,6 +26,9 @@ function Queue() {
   };
   this.getIsRunning = function() {
     return isRunning;
+  };
+  this.getAutoStart = function() {
+    return autoStart;
   };
   this.empty = function() {
     taskList.length = 0;
