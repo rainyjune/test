@@ -161,19 +161,19 @@
           var taskOrder = [];
           var queue = new Queue();
           var task1 = function(doneCallback) {
-            $.ajax(url + '&task=1', function() {
+            $.get(url + '&task=1', function() {
               taskOrder.push('task1');
               doneCallback && doneCallback();
             });
           };
           var task2 = function(doneCallback) {
-            $.ajax(url + '&task=2', function() {
+            $.get(url + '&task=2', function() {
               taskOrder.push('task2');
               doneCallback && doneCallback();
             });
           };
           var task3 = function(doneCallback) {
-            $.ajax(url + '&task=3', function() {
+            $.get(url + '&task=3', function() {
               taskOrder.push('task3');
               doneCallback && doneCallback();
             });
