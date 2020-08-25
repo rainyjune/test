@@ -13,6 +13,12 @@ function Queue() {
   this.inspect = function() {
     console.log('taskList:', taskList, ' isRunning:', isRunning);
   };
+  this.getTaskList = function() {
+    return taskList;
+  };
+  this.getIsRunning = function() {
+    return isRunning;
+  };
   this.empty = function() {
     taskList.length = 0;
     isRunning = false;
