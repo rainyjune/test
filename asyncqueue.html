@@ -25,6 +25,11 @@
           };
           queue2.enqueue(task1);
           assert.notEqual(queue.getTaskList().length, queue2.getTaskList().length, 'queue and queue2 have different task lists.');
+          
+          assert.equal(queue2.getTaskList().length, 1, 'There is one task in queue2 before empty() called');
+          queue2.empty();
+          assert.equal(queue2.getTaskList().length, 0, 'There is no task in queue2');
+          assert.equal(queue2.getIsRunning(), false, 'There is no task running in queue2');
         });
         
         QUnit.test('Enquque async tasks', function(assert) {
