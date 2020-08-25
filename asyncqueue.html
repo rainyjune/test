@@ -17,6 +17,14 @@
           assert.equal(typeof queue.enqueue, 'function', 'enqueue() is a function');
           assert.equal(queue.getTaskList().length, 0, 'There is no task by default');
           assert.equal(queue.getIsRunning(), false, 'There is no task running');
+          
+          var queue2 = new Queue();
+          var task1 = function() {
+            setTimeout(function() {
+            }, 200);
+          };
+          queue2.enqueue(task1);
+          assert.notEqual(queue.getTaskList().length, queue2.getTaskList().length, 'queue and queue2 have different task lists.');
         });
         
         QUnit.test('Enquque async tasks', function(assert) {
