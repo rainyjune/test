@@ -110,6 +110,49 @@
             done();
           }, 1000);
         });
+        
+        // #4
+        QUnit.test('Enquque async tasks multiple tasks', function(assert) {
+          var done = assert.async();
+          var taskOrder = [];
+          var queue = new Queue();
+          var task1 = function(doneCallback) {
+            assert.equal(queue.getIsRunning(), true, 'task1 is running');
+            setTimeout(function() {
+              taskOrder.push('task1');
+              doneCallback && doneCallback();
+            }, 300);
+          };
+          var task2 = function(doneCallback) {
+            assert.equal(queue.getIsRunning(), true, 'task2 is running');
+            setTimeout(function() {
+              taskOrder.push('task2');
+              doneCallback && doneCallback();
+            }, 100);
+          };
+          var task3 = function(doneCallback) {
+            assert.equal(queue.getIsRunning(), true, 'task3 is running');
+            setTimeout(function() {
+              taskOrder.push('task3');
+              doneCallback && doneCallback();
+            }, 1000);
+          };
+          queue.enqueue(task1);          
+          queue.enqueue(task2);
+          assert.equal(queue.getTaskList().length, 1, 'There is 1 task is the queque');
+          assert.equal(queue.getIsRunning(), true, 'There is one task running');
+          
+          setTimeout(function() {
+            queue.enqueue(task3);
+          }, 600);
+          
+          setTimeout(function() {
+            assert.equal(queue.getTaskList().length, 0, 'There is no task left');
+            assert.equal(queue.getIsRunning(), false, 'There is no task running');
+            assert.equal(taskOrder.join('_'), 'task1_task2_task3', 'Order ok');
+            done();
+          }, 3000);
+        });
 
       });
     </script>
