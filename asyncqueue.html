@@ -178,6 +178,9 @@
               doneCallback && doneCallback();
             });
           };
+          queue.enqueue(task1);          
+          queue.enqueue(task2);
+          queue.enqueue(task3);          
           setTimeout(function() {
             assert.equal(queue.getTaskList().length, 0, 'There is no task left');
             assert.equal(queue.getIsRunning(), false, 'There is no task running');
