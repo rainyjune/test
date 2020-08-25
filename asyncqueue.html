@@ -19,7 +19,7 @@
           assert.equal(queue.getIsRunning(), false, 'There is no task running');
         });
         
-        QUnit.test('Enquque a task', function(assert) {
+        QUnit.test('Enquque sync tasks', function(assert) {
           var queue = new Queue();
           var task1 = function() {
             assert.step('task1');
@@ -29,6 +29,10 @@
           };
           queue.enqueue(task1);
           assert.equal(queue.getTaskList().length, 1, 'There is 1 task');
+          assert.equal(queue.getIsRunning(), false, 'There is no task running');
+          
+          queue.enqueue(task2);
+          assert.equal(queue.getTaskList().length, 2, 'There are 2 tasks');
           assert.equal(queue.getIsRunning(), false, 'There is no task running');
         });
       });
