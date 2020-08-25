@@ -23,16 +23,18 @@
           var done = assert.async();
           var taskOrder = [];
           var queue = new Queue();
-          var task1 = function() {
+          var task1 = function(doneCallback) {
             assert.equal(queue.getIsRunning(), true, 'task1 is running');
             setTimeout(function() {
               taskOrder.push('task1');
+              doneCallback && doneCallback();
             }, 300);
           };
-          var task2 = function() {
+          var task2 = function(doneCallback) {
             assert.equal(queue.getIsRunning(), true, 'task2 is running');
             setTimeout(function() {
               taskOrder.push('task2');
+              doneCallback && doneCallback();
             }, 100);
           };
           queue.enqueue(task1);
