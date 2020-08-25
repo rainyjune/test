@@ -101,7 +101,7 @@
           assert.equal(queue.getTaskList().length, 2, 'There are 2 tasks');
           assert.equal(queue.getIsRunning(), false, 'There is no task running');
           
-          //queue.run();
+          queue.run();
           
           setTimeout(function() {
             assert.equal(queue.getTaskList().length, 0, 'There is no task left');
