@@ -10,9 +10,6 @@ function Queue() {
     var task = taskList.shift();
     task();
   };
-  this.inspect = function() {
-    console.log('taskList:', taskList, ' isRunning:', isRunning);
-  };
   this.getTaskList = function() {
     return taskList;
   };
