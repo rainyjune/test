@@ -43,7 +43,7 @@
         QUnit.test('Enquque async tasks', function(assert) {
           var done = assert.async();
           var taskOrder = [];
-          var queue = new Queue();
+          var queue = new Queue({autoStart: false});
           var task1 = function(doneCallback) {
             assert.equal(queue.getIsRunning(), true, 'task1 is running');
             setTimeout(function() {
