@@ -10,6 +10,9 @@ function Queue(options) {
   
   this.enqueue = function(task) {
     taskList.push(task);
+    if (autoStart) {
+      this.run();
+    }
   };
   this.run = function() {
     if (taskList.length === 0 || isRunning) return ;
