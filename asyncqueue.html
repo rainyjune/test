@@ -18,6 +18,19 @@
           assert.equal(queue.getTaskList().length, 0, 'There is no task by default');
           assert.equal(queue.getIsRunning(), false, 'There is no task running');
         });
+        
+        QUnit.test('Enquque a task', function(assert) {
+          var queue = new Queue();
+          var task1 = function() {
+            assert.step('task1');
+          };
+          var task2 = function() {
+            assert.step('task2');
+          };
+          queue.enqueue(task1);
+          assert.equal(queue.getTaskList().length, 1, 'There is 1 task');
+          assert.equal(queue.getIsRunning(), false, 'There is no task running');
+        });
       });
     </script>
   </body>
