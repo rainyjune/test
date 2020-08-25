@@ -40,7 +40,43 @@
           
         });
         
-        QUnit.test('Enquque async tasks', function(assert) {
+        QUnit.test('Enquque async tasks without options', function(assert) {
+          var done = assert.async();
+          var taskOrder = [];
+          var queue = new Queue();
+          var task1 = function(doneCallback) {
+            assert.equal(queue.getIsRunning(), true, 'task1 is running');
+            setTimeout(function() {
+              taskOrder.push('task1');
+              doneCallback && doneCallback();
+            }, 300);
+          };
+          var task2 = function(doneCallback) {
+            assert.equal(queue.getIsRunning(), true, 'task2 is running');
+            setTimeout(function() {
+              taskOrder.push('task2');
+              doneCallback && doneCallback();
+            }, 100);
+          };
+          queue.enqueue(task1);
+          assert.equal(queue.getTaskList().length, 1, 'There is 1 task');
+          assert.equal(queue.getIsRunning(), false, 'There is no task running');
+          
+          queue.enqueue(task2);
+          assert.equal(queue.getTaskList().length, 2, 'There are 2 tasks');
+          assert.equal(queue.getIsRunning(), false, 'There is no task running');
+          
+          //queue.run();
+          
+          setTimeout(function() {
+            assert.equal(queue.getTaskList().length, 0, 'There is no task left');
+            assert.equal(queue.getIsRunning(), false, 'There is no task running');
+            assert.equal(taskOrder.join('_'), 'task1_task2', 'Order ok');
+            done();
+          }, 1000);
+        });
+        
+        QUnit.test('Enquque async tasks with {autoStart: false}', function(assert) {
           var done = assert.async();
           var taskOrder = [];
           var queue = new Queue({autoStart: false});
