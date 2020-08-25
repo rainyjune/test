@@ -19,7 +19,7 @@
           assert.equal(queue.getIsRunning(), false, 'There is no task running');
           assert.equal(queue.getAutoStart(), true, 'autoStart defaults to true');
           
-          var queue2 = new Queue();
+          var queue2 = new Queue({autoStart: false});
           var task1 = function() {
             setTimeout(function() {
             }, 200);
