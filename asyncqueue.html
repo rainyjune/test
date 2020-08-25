@@ -21,15 +21,16 @@
         
         QUnit.test('Enquque async tasks', function(assert) {
           var done = assert.async();
+          var taskOrder = [];
           var queue = new Queue();
           var task1 = function() {
             setTimeout(function() {
-              assert.step('task1');
+              taskOrder.push('task1');
             }, 300);
           };
           var task2 = function() {
             setTimeout(function() {
-              assert.step('task2');
+              taskOrder.push('task2');
             }, 100);
           };
           queue.enqueue(task1);
@@ -45,7 +46,7 @@
           setTimeout(function() {
             assert.equal(queue.getTaskList().length, 0, 'There is no task left');
             assert.equal(queue.getIsRunning(), false, 'There is no task running');
-            assert.verifySteps(['task1', 'task2']);
+            assert.equal(taskOrder.join('_'), 'task1_task2', 'Order ok');
             done();
           }, 1000);
         });
