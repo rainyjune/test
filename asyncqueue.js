@@ -12,7 +12,6 @@ function Queue() {
     var that = this;
     task(function() {
       isRunning = false;
-      debugger;
       that.run();
     });
   };
