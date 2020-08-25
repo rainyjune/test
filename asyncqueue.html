@@ -58,7 +58,7 @@
           assert.equal(queue.getTaskList().length, 2, 'There are 2 tasks');
           assert.equal(queue.getIsRunning(), false, 'There is no task running');
           
-          queue.run();
+          //queue.run();
           
           setTimeout(function() {
             assert.equal(queue.getTaskList().length, 0, 'There is no task left');
@@ -66,6 +66,10 @@
             assert.equal(taskOrder.join('_'), 'task1_task2', 'Order ok');
             done();
           }, 1000);
+        });
+        
+        QUnit.test('Enquque async tasks auto start', function(assert) {
+          
         });
       });
     </script>
