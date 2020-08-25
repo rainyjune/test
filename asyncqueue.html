@@ -19,13 +19,18 @@
           assert.equal(queue.getIsRunning(), false, 'There is no task running');
         });
         
-        QUnit.test('Enquque sync tasks', function(assert) {
+        QUnit.test('Enquque async tasks', function(assert) {
+          var done = assert.async();
           var queue = new Queue();
           var task1 = function() {
-            assert.step('task1');
+            setTimeout(function() {
+              assert.step('task1');
+            }, 300);
           };
           var task2 = function() {
-            assert.step('task2');
+            setTimeout(function() {
+              assert.step('task2');
+            }, 100);
           };
           queue.enqueue(task1);
           assert.equal(queue.getTaskList().length, 1, 'There is 1 task');
@@ -34,6 +39,15 @@
           queue.enqueue(task2);
           assert.equal(queue.getTaskList().length, 2, 'There are 2 tasks');
           assert.equal(queue.getIsRunning(), false, 'There is no task running');
+          
+          queue.run();
+          
+          setTimeout(function() {
+            assert.equal(queue.getTaskList().length, 0, 'There is no task left');
+            assert.equal(queue.getIsRunning(), false, 'There is no task running');
+            assert.verifySteps(['task1', 'task2']);
+            done();
+          }, 1000);
         });
       });
     </script>
