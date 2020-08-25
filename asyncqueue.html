@@ -12,6 +12,8 @@
     <script src="asyncqueue.js"></script>
     <script>
       QUnit.module('Queue', function() {
+        
+        // #1 
         QUnit.test('Basic check', function(assert) {
           var queue = new Queue();
           assert.equal(typeof queue.enqueue, 'function', 'enqueue() is a function');
@@ -40,6 +42,7 @@
           
         });
         
+        // #2
         QUnit.test('Enquque async tasks without options', function(assert) {
           var done = assert.async();
           var taskOrder = [];
@@ -70,7 +73,8 @@
             done();
           }, 1000);
         });
-        
+       
+        // #3
         QUnit.test('Enquque async tasks with {autoStart: false}', function(assert) {
           var done = assert.async();
           var taskOrder = [];
