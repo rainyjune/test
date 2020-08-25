@@ -161,21 +161,33 @@
           var taskOrder = [];
           var queue = new Queue();
           var task1 = function(doneCallback) {
-            $.get(url + '&task=1', function() {
-              taskOrder.push('task1');
-              doneCallback && doneCallback();
+            $.ajax({
+              url: url + '&task=1',
+              crossDomain: true,
+              complete: function() {
+                taskOrder.push('task1');
+                doneCallback && doneCallback();
+              }
             });
           };
           var task2 = function(doneCallback) {
-            $.get(url + '&task=2', function() {
-              taskOrder.push('task2');
-              doneCallback && doneCallback();
+            $.ajax({
+              url: url + '&task=2',
+              crossDomain: true,
+              complete: function() {
+                taskOrder.push('task2');
+                doneCallback && doneCallback();
+              }
             });
           };
           var task3 = function(doneCallback) {
-            $.get(url + '&task=3', function() {
-              taskOrder.push('task3');
-              doneCallback && doneCallback();
+            $.ajax({
+              url: url + '&task=3',
+              crossDomain: true,
+              complete: function() {
+                taskOrder.push('task3');
+                doneCallback && doneCallback();
+              }
             });
           };
           queue.enqueue(task1);          
