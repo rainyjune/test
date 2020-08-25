@@ -24,11 +24,13 @@
           var taskOrder = [];
           var queue = new Queue();
           var task1 = function() {
+            assert.equal(queue.getIsRunning(), true, 'task1 is running');
             setTimeout(function() {
               taskOrder.push('task1');
             }, 300);
           };
           var task2 = function() {
+            assert.equal(queue.getIsRunning(), true, 'task2 is running');
             setTimeout(function() {
               taskOrder.push('task2');
             }, 100);
