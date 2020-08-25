@@ -58,15 +58,10 @@
               doneCallback && doneCallback();
             }, 100);
           };
-          queue.enqueue(task1);
-          assert.equal(queue.getTaskList().length, 1, 'There is 1 task');
-          assert.equal(queue.getIsRunning(), false, 'There is no task running');
-          
+          queue.enqueue(task1);          
           queue.enqueue(task2);
-          assert.equal(queue.getTaskList().length, 2, 'There are 2 tasks');
-          assert.equal(queue.getIsRunning(), false, 'There is no task running');
-          
-          //queue.run();
+          assert.equal(queue.getTaskList().length, 1, 'There is 1 task is the queque');
+          assert.equal(queue.getIsRunning(), true, 'There is one task running');
           
           setTimeout(function() {
             assert.equal(queue.getTaskList().length, 0, 'There is no task left');
