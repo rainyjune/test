@@ -13,7 +13,8 @@
     <script>
       QUnit.module('Queue', function() {
         QUnit.test('Basic check', function(assert) {
-          assert.equal(typeof Queue.enqueue, 'function', 'queue.enqueue() is a function');
+          var queue = new Queue();
+          assert.equal(typeof queue.enqueue, 'function', 'enqueue() is a function');
         });
       });
     </script>
