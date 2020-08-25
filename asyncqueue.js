@@ -8,7 +8,12 @@ function Queue() {
   this.run = function() {
     if (taskList.length === 0 || isRunning) return ;
     var task = taskList.shift();
-    task(this.run);
+    isRunning = true;
+    task(function() {
+      isRunning = false;
+      debugger;
+      this.run();
+    });
   };
   this.getTaskList = function() {
     return taskList;
