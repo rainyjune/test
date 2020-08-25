@@ -154,6 +154,37 @@
             done();
           }, 3000);
         });
+        
+        QUnit.test('ajax tests', function(assert) {
+          var url = "https://sensorswww.datasink.sensorsdata.cn/sa.gif?token=6b551cb59b1c1973"
+          var done = assert.async();
+          var taskOrder = [];
+          var queue = new Queue();
+          var task1 = function(doneCallback) {
+            $.ajax(url + '&task=1', function() {
+              taskOrder.push('task1');
+              doneCallback && doneCallback();
+            });
+          };
+          var task2 = function(doneCallback) {
+            $.ajax(url + '&task=2', function() {
+              taskOrder.push('task2');
+              doneCallback && doneCallback();
+            });
+          };
+          var task3 = function(doneCallback) {
+            $.ajax(url + '&task=3', function() {
+              taskOrder.push('task3');
+              doneCallback && doneCallback();
+            });
+          };
+          setTimeout(function() {
+            assert.equal(queue.getTaskList().length, 0, 'There is no task left');
+            assert.equal(queue.getIsRunning(), false, 'There is no task running');
+            assert.equal(taskOrder.join('_'), 'task1_task2_task3', 'Order ok');
+            done();
+          }, 2000);
+        });
 
       });
     </script>
