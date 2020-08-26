@@ -38,3 +38,26 @@ function Queue(options) {
     isRunning = false;
   };
 };
+
+
+/* A simplified version*/
+/*
+function Queue(options) {
+  var taskList = [];
+  var isRunning = false;
+  
+  this.enqueue = function(task) {
+    taskList.push(task);
+    run();
+  };
+  function run() {
+    if (taskList.length === 0 || isRunning) return ;
+    var task = taskList.shift();
+    isRunning = true;
+    task(function() {
+      isRunning = false;
+      run();
+    });
+  }
+}
+*/
