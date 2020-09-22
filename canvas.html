@@ -7,6 +7,7 @@
   </head>
   <body>
     <canvas id="canvas" style="width: 200px; height: 200px;" ></canvas>
+    <p id="dpr"></p>
     <script>
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -18,7 +19,6 @@ var height = size.height;
 
 canvas.width = width;
 canvas.height = height;
-
 
 ctx.fillStyle = "#bada55";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -32,6 +32,8 @@ var y = canvas.height / 2;
 
 var textString = "Hello World";
 ctx.fillText(textString, x, y);
+
+document.getElementById('dpr').innerText = 'window.devicePixelRatio: ' + window.devicePixelRatio;
     </script>
   </body>
 </html>
