@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>canvas</title>
+  </head>
+  <body>
+    <canvas id="canvas" style="width: 200px; height: 200px;" ></canvas>
+    <p id="dpr"></p>
+    <script>
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+// Get display size (css pixels).
+var size = canvas.getBoundingClientRect();
+var width = size.width;
+var height = size.height;
+
+
+// Set actual size in memory (scaled to account for extra pixel density).
+var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+canvas.width = Math.floor(width * scale);
+canvas.height = Math.floor(height * scale);
+
+// Normalize coordinate system to use css pixels.
+ctx.scale(scale, scale);
+
+ctx.fillStyle = "#bada55";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillStyle = "#ffffff";
+ctx.font = '18px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+
+var x = canvas.width / 2;
+var y = canvas.height / 2;
+
+var textString = "Hello World";
+ctx.fillText(textString, x, y);
+
+document.getElementById('dpr').innerText = 'window.devicePixelRatio: ' + window.devicePixelRatio;
+    </script>
+  </body>
+</html>
