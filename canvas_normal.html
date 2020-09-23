@@ -24,6 +24,14 @@ var cssHeight = canvas.getBoundingClientRect().height;
 
 canvas.width = cssWidth;
 canvas.height = cssHeight;
+	    
+// Set actual size in memory (scaled to account for extra pixel density).
+var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+canvas.width = Math.round(cssWidth * scale);
+canvas.height = Math.round(cssHeight * scale);
+
+// Normalize coordinate system to use css pixels.
+ctx.scale(scale, scale);
 
 ctx.fillStyle = "#bada55";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -40,7 +48,7 @@ ctx.fillText(textString, x, y);
 
 
 if (window.devicePixelRatio > 1) {
-  document.getElementsByTagName('p')[0].innerText = '高清屏幕';
+  document.getElementsByTagName('p')[0].innerText = 'iPhone 高清屏幕';
 }
     </script>
   </body>
