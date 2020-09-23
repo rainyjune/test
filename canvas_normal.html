@@ -12,23 +12,27 @@
 	</style>
   </head>
   <body>
+    <p>x2</p>
     <canvas id="canvas" style="width: 200px; height: 200px;"></canvas>
 	  <p id="type">普通非高清屏幕</p>
     <script>
+function setupCanvas(canvas) {
+  // Get display size (css pixels).
+  var rect = canvas.getBoundingClientRect();
+
+  // 设置实际的尺寸
+  var scale = window.devicePixelRatio || 1;
+  canvas.width = Math.floor(rect.width * scale);
+  canvas.height = Math.floor(rect.height * scale);  
+  
+  var ctx = canvas.getContext('2d');
+  // 让坐标系统使用CSS像素
+  ctx.scale(scale, scale);
+  return ctx;
+}
 var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
 
-// Get display size (css pixels).
-var rect = canvas.getBoundingClientRect();
-	    
-// 设置实际的尺寸
-var scale = window.devicePixelRatio;
-canvas.width = Math.floor(rect.width * scale);
-canvas.height = Math.floor(rect.height * scale);
-	    
-// 让坐标系统使用CSS像素
-ctx.scale(scale, scale);
-
+var ctx = setupCanvas(canvas);
 ctx.fillStyle = "#bada55";
 ctx.fillRect(0, 0, rect.width, rect.height);
 ctx.fillStyle = "#ffffff";
