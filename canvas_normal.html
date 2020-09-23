@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>canvas</title>
+	<style>
+	  p {
+		width: 200px;
+		text-align: center;
+	  }
+	</style>
+  </head>
+  <body>
+    <canvas id="canvas" style="width: 200px; height: 200px;"></canvas>
+	<p>普通非高清屏幕</p>
+    <script>
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+// Get display size (css pixels).
+var cssWidth = canvas.getBoundingClientRect().width;
+var cssHeight = canvas.getBoundingClientRect().height;
+
+canvas.width = cssWidth;
+canvas.height = cssHeight;
+
+ctx.fillStyle = "#bada55";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillStyle = "#ffffff";
+ctx.font = '18px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+
+var x = canvas.width / 2;
+var y = canvas.height / 2;
+
+var textString = "Hello World";
+ctx.fillText(textString, x, y);
+    </script>
+  </body>
+</html>
