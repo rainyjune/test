@@ -12,7 +12,7 @@
 	</style>
   </head>
   <body>
-	  <p>r3</p>
+	  <p>r4</p>
     <canvas id="canvas" style="width: 200px; height: 200px;"></canvas>
 	  <p id="type">普通非高清屏幕</p>
     <script>
@@ -24,6 +24,14 @@ var rect = canvas.getBoundingClientRect();
 
 canvas.width = rect.width;
 canvas.height = rect.height;
+	    
+// 设置实际的尺寸
+var scale = window.devicePixelRatio;
+canvas.width = Math.floor(size * scale);
+canvas.height = Math.floor(size * scale);
+	    
+// 让坐标系统使用CSS像素
+ctx.scale(scale, scale);
 
 ctx.fillStyle = "#bada55";
 ctx.fillRect(0, 0, rect.width, rect.height);
