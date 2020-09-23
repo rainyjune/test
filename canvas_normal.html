@@ -12,7 +12,7 @@
 	</style>
   </head>
   <body>
-    <p>x2</p>
+    <p>x3</p>
     <canvas id="canvas" style="width: 200px; height: 200px;"></canvas>
 	  <p id="type">普通非高清屏幕</p>
     <script>
@@ -34,17 +34,14 @@ var canvas = document.getElementById('canvas');
 
 var ctx = setupCanvas(canvas);
 ctx.fillStyle = "#bada55";
-ctx.fillRect(0, 0, rect.width, rect.height);
+ctx.fillRect(0, 0, 300, 300);
 ctx.fillStyle = "#ffffff";
 ctx.font = '18px Arial';
 ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
 
-var x = rect.width / 2;
-var y = rect.height / 2;
-
 var textString = "Hello World";
-ctx.fillText(textString, x, y);
+ctx.fillText(textString, 100, 100);
 
 
 if (window.devicePixelRatio > 1) {
