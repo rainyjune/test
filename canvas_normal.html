@@ -12,9 +12,9 @@
 	</style>
   </head>
   <body>
-	  <p>r2</p>
+	  <p>r3</p>
     <canvas id="canvas" style="width: 200px; height: 200px;"></canvas>
-	  <p>普通非高清屏幕</p>
+	  <p id="type">普通非高清屏幕</p>
     <script>
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -40,7 +40,7 @@ ctx.fillText(textString, x, y);
 
 
 if (window.devicePixelRatio > 1) {
-  document.getElementsByTagName('p')[0].innerText = '高清屏幕';
+  document.getElementById('type').innerText = '高清屏幕';
 }
     </script>
   </body>
