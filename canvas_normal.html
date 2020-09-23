@@ -12,33 +12,25 @@
 	</style>
   </head>
   <body>
+	  <p>r1</p>
     <canvas id="canvas" style="width: 200px; height: 200px;"></canvas>
-	<p>普通非高清屏幕</p>
+	  <p>普通非高清屏幕</p>
     <script>
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
 // Get display size (css pixels).
-var cssWidth = canvas.getBoundingClientRect().width;
-var cssHeight = canvas.getBoundingClientRect().height;
-	    
-// Set actual size in memory (scaled to account for extra pixel density).
-var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
-canvas.width = Math.round(cssWidth * scale);
-canvas.height = Math.round(cssHeight * scale);
-
-// Normalize coordinate system to use css pixels.
-ctx.scale(scale, scale);
+var rect = canvas.getBoundingClientRect();
 
 ctx.fillStyle = "#bada55";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillRect(0, 0, rect.width, rect.height);
 ctx.fillStyle = "#ffffff";
 ctx.font = '18px Arial';
 ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
 
-var x = cssWidth / 2;
-var y = cssHeight / 2;
+var x = rect.width / 2;
+var y = rect.height / 2;
 
 var textString = "Hello World";
 ctx.fillText(textString, x, y);
