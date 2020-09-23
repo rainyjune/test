@@ -12,7 +12,7 @@
 	</style>
   </head>
   <body>
-	  <p>r4</p>
+	  <p>r5</p>
     <canvas id="canvas" style="width: 200px; height: 200px;"></canvas>
 	  <p id="type">普通非高清屏幕</p>
     <script>
@@ -21,14 +21,11 @@ var ctx = canvas.getContext('2d');
 
 // Get display size (css pixels).
 var rect = canvas.getBoundingClientRect();
-
-canvas.width = rect.width;
-canvas.height = rect.height;
 	    
 // 设置实际的尺寸
 var scale = window.devicePixelRatio;
-canvas.width = Math.floor(size * scale);
-canvas.height = Math.floor(size * scale);
+canvas.width = Math.floor(rect.width * scale);
+canvas.height = Math.floor(rect.height * scale);
 	    
 // 让坐标系统使用CSS像素
 ctx.scale(scale, scale);
