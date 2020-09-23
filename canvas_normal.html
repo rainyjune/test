@@ -12,7 +12,7 @@
 	</style>
   </head>
   <body>
-	  <p>r1</p>
+	  <p>r2</p>
     <canvas id="canvas" style="width: 200px; height: 200px;"></canvas>
 	  <p>普通非高清屏幕</p>
     <script>
@@ -21,6 +21,9 @@ var ctx = canvas.getContext('2d');
 
 // Get display size (css pixels).
 var rect = canvas.getBoundingClientRect();
+
+canvas.width = rect.width;
+canvas.height = rect.height;
 
 ctx.fillStyle = "#bada55";
 ctx.fillRect(0, 0, rect.width, rect.height);
