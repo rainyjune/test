@@ -1,6 +1,7 @@
 {
     "id": 1,
     "book_name": "Photography",
+    "cover_color": "red",
     "page_quantity": 346,
     "is_exist": true
 }
