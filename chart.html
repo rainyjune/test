@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Chart</title>
+    <style>
+      ul.btn {
+        list-style-type: none;
+      }
+      ul.btn li {
+        display: inline-block;
+      }
+      ul.btn li button {
+        width: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" style="width:100%; height:400px;"></div>
+    <p>总数：<span id="totalNum">0</span></p>
+    <div>
+      <p>新的点数：</p>
+      <ul class="btn">
+        <li><button value="2">2</button></li>
+        <li><button value="3">3</button></li>
+        <li><button value="4">4</button></li>
+        <li><button value="5">5</button></li>
+        <li><button value="6">6</button></li>
+        <li><button value="7">7</button></li>
+        <li><button value="8">8</button></li>
+        <li><button value="9">9</button></li>
+        <li><button value="10">10</button></li>
+        <li><button value="11">11</button></li>
+        <li><button value="12">12</button></li>
+      </ul>
+    </div>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script>
+    $(function() {
+      var total = 0;
+      var pointsData = [0,0,0,0,0,0,0,0,0,0,0];
+
+      renderChart();
+
+      $('.btn button').click(function() {
+        total++;
+        pointsData[parseInt($(this).val()) - 2]++;
+        renderChart();
+        $('#totalNum').text(total);
+      });
+
+      function renderChart() {
+        Highcharts.chart('container', {
+          credits: false,
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: '骰子点数分布图'
+          },
+          subtitle: {
+            text: '掷两个骰子面朝上的点数和'
+          },
+          accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+          },
+          xAxis: {
+            categories: ['2','3','4','5','6','7','8','9','10','11','12']
+          },
+          yAxis: {
+            minTickInterval: 1,
+            title: {
+                text: '次数'
+            }
+          },
+          legend: {
+            enabled: false
+          },
+          plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y}'
+                }
+            }
+          },
+          tooltip: {
+            headerFormat: '百分比<br>',
+            pointFormatter: function(point) {
+              return ((this.y / total) * 100).toFixed(2) + '%';
+            }
+          },
+          series: [
+            {
+              name: "点数",
+              colorByPoint: true,
+              data: pointsData
+            }
+          ]
+        });
+
+      }
+    });
+
+    </script>
+  </body>
+</html>
