@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>iframetest.html</title>
+  </head>
+  <body>
+    <p><input type="text" name="cookieinput" id="cookieinput" /><input type="button" id="set"</p>
+    <p>Cookies on this site:<span id="cookiespan"></span></p>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script>
+      var span = document.getElementById('cookiespan');
+      var input = document.getElementById('cookieinput');
+      var btn = document.getElementById('set');
+
+      btn.onclick = function() {
+        Cookies.set('name', input.value, { expires: 7 });
+      };
+      setInterval(function() {
+        span.innerHTML = document.cookie;
+      }, 1000);
+    </script>
+  </body>
+</html>
