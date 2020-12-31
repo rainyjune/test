@@ -20,3 +20,14 @@ v-limit-condition: {  "elementSelector": "#facts > div:nth-of-type(1) > div:nth-
 
  v-limit-condition: {  "elementSelector": "#facts > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1)",  "element_path": "section#facts > div > div > div > div > div",  "element_content": "57 Speakers"}
 ```
+
+```
+v-limit-condition: {  "elementSelector": "#footer > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > ul:nth-of-type(1) > li:nth-of-type(3) > a:nth-of-type(1)",  "element_path": "footer#footer > div > div > div > div > div > ul > li > a"}
+
+上面是取消的
+
+
+v-limit-condition: {  "elementSelector": "#footer > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > ul:nth-of-type(1) > li:nth-of-type(3) > a:nth-of-type(1)",  "element_path": "footer#footer > div > div > div > div > div > ul > li > a",  "element_position": 2}
+
+上面是再次点击的
+```
