@@ -1,0 +1,43 @@
+{
+    "code": 0,
+    "data": [{
+        "id": 233500,
+        "cardType": "wechat_share",
+        "pluginStyle": "card",
+        "pluginToken": "f2b8addfb738a4a0d2bbcdbfb186e4c6",
+        "cardId": "Plugin_f2b8addfb738a4a0d2bbcdbfb186e4c6",
+        "pluginUrl": "https://xg.zhihu.com/plugin/f2b8addfb738a4a0d2bbcdbfb186e4c6?BIZ=ECOMMERCE",
+        "pluginName": "关注【阿呆外卖券】无门槛超低价喝星巴克  天天领大额外卖红包！！",
+        "description": "关注【阿呆外卖券】无门槛超低价喝星巴克  天天领大额外卖红包！！",
+        "interactionLaunch": "去关注",
+        "picUrl": "https://pic3.zhimg.com/v2-a974a077ed5d1845bdea4d907d83541c.jpg",
+        "logo": "https://pic4.zhimg.com/v2-a974a077ed5d1845bdea4d907d83541c.jpg",
+        "productName": "乌兰",
+        "price": 0,
+        "shareUrl": "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=Mzg2NTY1ODY2MQ==&scene=124&uin=&key=&devicetype=Windows+10+x64&version=63030522&lang=zh_CN&a8scene=7&fontgear=2",
+        "shareDesc": "不要转发，直接点这里，直接关注即可！！",
+        "externalInformation": "",
+        "deeplinkUrl": "",
+        "url": "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=Mzg2NTY1ODY2MQ==&scene=124&uin&key&devicetype=Windows+10+x64&version=63030522&lang=zh_CN&a8scene=7&fontgear=2",
+        "trackUrl": {
+            "view": ["https://sugar.zhihu.com/plutus_adreaper/page_monitor_log?si=c23e0f1f-c5bd-4335-8e1d-269ee0246fdc&ti=383944644&pf=__OS__&idfa=__IDFA__&imei=__IMEI__&androidid=__ANDROIDID__&pt=article&ed=__MEMBERID__&oaid=__OAID__&at=view&ci=__CREATIVEID__&pli=233500&et=__ET__&zid=__ZONEID__&ps=card&pi=__PAGEID__&ad_si=__SESSIONID__&sqnc=__SEQUENCE__"],
+            "click": ["https://sugar.zhihu.com/plutus_adreaper/page_monitor_log?si=c23e0f1f-c5bd-4335-8e1d-269ee0246fdc&ti=383944644&pf=__OS__&idfa=__IDFA__&imei=__IMEI__&androidid=__ANDROIDID__&pt=article&ed=__MEMBERID__&oaid=__OAID__&at=click&ci=__CREATIVEID__&pli=233500&et=__ET__&zid=__ZONEID__&ps=card&pi=__PAGEID__&ad_si=__SESSIONID__&sqnc=__SEQUENCE__"],
+            "conversion": ["https://sugar.zhihu.com/plutus_adreaper/page_monitor_log?si=c23e0f1f-c5bd-4335-8e1d-269ee0246fdc&ti=383944644&pf=__OS__&idfa=__IDFA__&imei=__IMEI__&androidid=__ANDROIDID__&pt=article&ed=__MEMBERID__&oaid=__OAID__&at=conversion&ci=__CREATIVEID__&pli=233500&zid=__ZONEID__&ps=card&pi=__PAGEID__&ad_si=__SESSIONID__&sqnc=__SEQUENCE__"]
+        },
+        "conversion": ["https://sugar.zhihu.com/plutus_adreaper/page_monitor_log?si=c23e0f1f-c5bd-4335-8e1d-269ee0246fdc&ti=383944644&pf=__OS__&idfa=__IDFA__&imei=__IMEI__&androidid=__ANDROIDID__&pt=article&ed=__MEMBERID__&oaid=__OAID__&at=conversion&ci=__CREATIVEID__&pli=233500&zid=__ZONEID__&ps=card&pi=__PAGEID__&ad_si=__SESSIONID__&sqnc=__SEQUENCE__"],
+        "is_canvas": false,
+        "adjson": "{\"ads\":[{\"view_x_tracks\":[],\"conversion_track_js\":[],\"debug_tracks\":[],\"click_tracks\":[],\"creatives\":[{\"asset\":{\"landing_url\":\"https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=Mzg2NTY1ODY2MQ==&scene=124&uin&key&devicetype=Windows+10+x64&version=63030522&lang=zh_CN&a8scene=7&fontgear=2\"}}],\"impression_tracks\":[],\"view_tracks\":[],\"close_tracks\":[],\"conversion_tracks\":[]}]}",
+        "validStatus": 0,
+        "web_experiment": {
+            "adb_cardtest": "0"
+        },
+        "commercialType": 4,
+        "androidScore": 0.0,
+        "iosScore": 0.0,
+        "implantType": 0,
+        "si": "c23e0f1f-c5bd-4335-8e1d-269ee0246fdc",
+        "channelSource": "",
+        "__isset_bitfield": -9
+    }],
+    "message": "aa"
+}
